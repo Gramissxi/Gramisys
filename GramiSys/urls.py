@@ -22,5 +22,6 @@ urlpatterns = [
     #incluya vistaprevia sacada desde la urls secundaria vistaprevia.urls 
     
     path ('vistaprevia', include('vistaprevia.urls')), 
+    path('accounts/', include('registration.backends.default.urls')), #config para registro de redux 
     path('admin/', admin.site.urls),
 ]

@@ -33,6 +33,11 @@ ALLOWED_HOSTS = []
 # Application por definicion
 
 INSTALLED_APPS = [
+    
+    #agregando lineas para el registro redux
+    'django.contrib.sites',
+    'registration',
+    
     #app por defecto
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,7 +48,7 @@ INSTALLED_APPS = [
     #apps terceros
 
     #mis apps
-    'vistaprevia'
+    'vistaprevia.apps.VistapreviaConfig'
 
 ]
 
@@ -111,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
 
 TIME_ZONE = 'UTC'
 
@@ -123,9 +128,26 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = 'static/' 
+
+# dentro de la carpeta static_dev vamos a poner imagenes estaticas, diseños fijos, animacion
+#agregadas desde el doc del prfe
+
+# static solo a produccion dev si lo que dije arribe
+#media graficos, videos, imagenes q muestren 
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static_dev"),)
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#la persona tiene 7 dias para logearse o se borra
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_AUTO_LOGIN= True
+SITE_IDE= 1 #cuantos sitios estamos usando. usamos solo 1
