@@ -21,7 +21,7 @@ class ProductAdmin(admin.ModelAdmin):
         "Datos generales",
         {
             "fields":[
-                'nombre', 'stock', 'tamaños', 'tipo', 'fecha_ingreso', 'precio'
+                'nombre','imagen', 'stock', 'tamaños', 'tipo', 'fecha_ingreso', 'precio'
             ]
         }
         )
@@ -29,17 +29,14 @@ class ProductAdmin(admin.ModelAdmin):
 #listadisplay-> nos va a servir para ordenar en columnas los datos de arriba
     list_display= ['categoria','marca','nombre', 'Stock','tamaños', 'tipo', 'Precio', 'fecha_ingreso', 'upper_case_name']
    
-#cambiar el ordenamiento de la tabla
+
     ordering= ['-fecha_ingreso'] #porque cambia todos los ordenes
     list_filter= ('nombre', 'fecha_ingreso',) #lista los filtros a la derecha
   
     search_fields=('nombre',) #genera un buscador arriba que solamente va a buscar x nombre,categoria y marca 
-    #error cuando usar una foreingKey para buscar. como lo es categoria y marca
-    #BUSCAR FORMA DE QUE SE PUEDA BUSCAR TAMBIEN POR BEBIDAS O NO SE VA A PODER? 
     
     list_display_links= ('nombre','Stock')#va a permitir modificar apretando el link 
-    #aca tambien modificamos porque ahora la funcion falta_sotck es la que no va a devolver el stock
-    #le cambie el nombre porque este nombre el de la funcion Stocke()es el que apareceria en la tabla productos 
+     
 
     
     @admin.display(description='NOMBRE')
@@ -50,16 +47,6 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 
-
-
-
-#admin.site.register(Categoria)
-
-
-#SOLO ESTE ME INTERESA MOSTRAR LOS ANTERIORES SON TABLAS 
-
-##admin.site.register(Producto,ProductAdmin)  Esta clase ordena el panel de admid para agregar productos de forma ordenada
-#lo pude reemplazar usando un decorador antes de la clase @admin.registr(producto)
 admin.site.register(Categoria, CategoriaAdmin)
 
 admin.site.register(Marca)

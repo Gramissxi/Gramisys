@@ -33,7 +33,6 @@ class Producto(models.Model):
         ('Pomelo','Pomelo'),
         ('Manzana','Manzana'),
         ('Naranja','Naranja')
-    
         ]
     
     nombre= models.CharField(max_length=100, null=True,blank=True )
@@ -43,6 +42,8 @@ class Producto(models.Model):
     #Tablas concatenadas
     categoria=models.ForeignKey(Categoria,blank=False, null=True, on_delete=models.CASCADE)# relacion con tabla categoria
     marca= models.ForeignKey(Marca, on_delete=models.CASCADE) #relacion con tabla marca
+    imagen = models.ImageField(upload_to='productos/%Y/%m/%d/', null=True, blank=True) #nueva 
+
 
    #quise evitar usar mas tablas innecesarias
     tipo = models.CharField(max_length=100, choices=Tipo, null=True,blank=True)

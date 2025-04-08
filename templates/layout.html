@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+    {% block content %} 
+    <nav class="navbar navbar-expand-lg mi-nav">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+      
+          <!-- Logo -->
+          <a class="navbar-brand d-flex align-items-center logo" href="{% url 'index' %}">
+            <img src="http://127.0.0.1:8000/media/producto/2025/02/15/logo1.png" alt="Logo GramiSys" width="60" height="60">
+          </a>
+          <p class="eslogan">Tu mercado de confianza</p>
+          <!-- Buscador centrado -->
+          <form class="buscador-centrado" role="search">
+            <input class="form-control me-2" type="search" placeholder="¿Qué queres comprar hoy?">
+            <button class=" boton-buscar" type="submit">Buscar</button>
+          </form>
+      
+        </div>
+        
+         <!-- Botón Ingresar -->   
+      
+         <div class="ms-auto">
+          {% if user.is_authenticated %}
+          <form action="{% url 'auth_logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="boton-salir">Cerrar sesión</button>
+          </form>
+            <span class="bienvenida">Bienvenido {{ user.username }}</span>
+
+          {% else %}
+            <a href="{% url 'auth_login' %}" class="boton-ingresar">Ingresar</a>
+          {% endif %}
+        </div>
+        
+       
+      </nav>
+  
+  <!-- menu con categorias -->
+  
+  <div class="dropdown-center menu-categorias d-flex flex-wrap justify-content-center gap-3 ">
+    {% for categoria in categorias %}
+      <div class="btn-group" role="group">
+        <button type="button" class="btn botondes dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          {{ categoria.nombre }}
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a class="dropdown-item fw-bold nombre-categoria" href="{% url 'productos_por_categoria' categoria.id %}">
+              Ver {{ categoria.nombre }}
+            </a>
+          </li>
+          <li><hr class="dropdown-divider"></li>
+          {% for producto in categoria.producto_set.all %}
+            <li>
+              <a class="dropdown-item" href="{% url 'detalle_producto' producto.id %}">{{ producto.nombre }}</a>
+            </li>
+          {% empty %}
+            <li><span class="dropdown-item">Sin productos</span></li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endfor %}
+  </div>
+  
+  
+  
+    {% block contenedor %} 
+   
+     
+
+    {% endblock %}
+
+
+
+    {% endblock %}
+
+    
+

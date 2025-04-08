@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     #agregando lineas para el registro redux
     'django.contrib.sites',
     'registration',
+    'debug_toolbar', # para debug
     
     #app por defecto
     'django.contrib.admin',
@@ -48,7 +49,8 @@ INSTALLED_APPS = [
     #apps terceros
 
     #mis apps
-    'vistaprevia.apps.VistapreviaConfig'
+    'vistaprevia.apps.VistapreviaConfig',
+    'usuarios.apps.UsuariosConfig',
 
 ]
 
@@ -122,7 +124,7 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False #True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -147,7 +149,33 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOGIN_REDIRECT_URL= '/' #una vez que te registres va a esta url
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL= '/accounts/login/'
+REGISTRATION_SUCCESS_URL = '/accounts/login/'  # A dónde querés ir después de registrarte
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 #la persona tiene 7 dias para logearse o se borra
 ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_AUTO_LOGIN= True
-SITE_IDE= 1 #cuantos sitios estamos usando. usamos solo 1
+SITE_ID= 1 #cuantos sitios estamos usando. usamos solo 1
+
+ #COPIO CODE DE PROFE PARA EL DEBUG
+if DEBUG:
+    MIDDLEWARE +=[
+
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
+    ]
+
+    INTERNAL_IPS= [
+        "127.0.0.1",
+    ]
+
+    import mimetypes
+
+    mimetypes.add_type("application/javascript", ".js", True) 
+
+    DEBUG_TOOLBAR_CONFIG={
+        "INTERCEP_REDIRECTS": False,
+    }
+
