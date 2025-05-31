@@ -9,10 +9,16 @@ urlpatterns = [
     #incluya vistaprevia sacada desde la urls secundaria vistaprevia.urls 
     
     path ('', include('vistaprevia.urls')), 
-    path('accounts/', include('registration.backends.default.urls')), #config para registro de redux 
-    
+    #path('accounts/', include('registration.backends.default.urls')), #config para registro de redux 
+    #registro de usuario desloguarnos 
+
+    path('captcha/', include('captcha.urls')),
+    path('contacto/', include('contacto.urls')),
+
+    path('tienda/', include('tienda.urls')),
+
     path('admin/', admin.site.urls),
-    path('usuarios/', include('usuarios.urls')),
+    path('usuarios/', include('usuarios.urls')), #vamos a usar usuarios con signals
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

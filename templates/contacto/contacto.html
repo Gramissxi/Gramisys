@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}Contacto{% endblock %}
+{% block contacto %}
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="h1juan" style="padding-left:15px;">Contacto</h1>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    {{form}}
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="col-md-8">Enviar</button>
+                    
+                </div>
+           
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,154 @@
+{% extends "layout.html" %}
+{% load static %}
+{% load mi_tienda %}
+
+ 
+
+
+
+{% block contenedor %}
+
+  <!-- Contenido principal del home -->
+
+<script type="text/javascript" src={% static "js/jquery.js" %}></script>
+<div class="container mt-5">
+  <div class="col-12 color1" style="padding-top: 70px;">
+
+    <h1>holaaaaa, estouy en templatetags</h1> 
+    {% autoescape off %}  <!--evita qeu traiga un codigo js(igual no me funciona el color que deberia ser amarillo) -->
+        {{ cross_site_scripting }}
+    {% endautoescape %}
+
+  </div>
+</div>
+<div>
+    
+
+
+
+ 
+  <div class="container mt-5">
+    <div class="row"> <!--- no me funciona el comment no me aparece en templatestags1--->
+
+      <div class="col-12 color1" style="padding-top: 70px;"></div>
+        <h1>holaaaaa, estoy trabaando con comentarios</h1> 
+
+        <p>Rendered text with {{ fecha_de_hoy }} </p>  
+           {% comment " por motivo x" %}          
+              <p>Este es un comentario{{ fecha_de_hoy }}</p>
+           {% endcomment %}
+  
+      </div>
+   </div>
+  <div>
+  
+
+
+    <div class="container">
+      <div class="row"> <!--- cicly para ir dandole estilos a cada elemento de una lista--->
+        <div class="col-12" style="padding-top: 70px;"></div>
+          <h1>holaaaaa, estoy viendo  cycle</h1> 
+      
+          <ul>
+
+               {% for elemento in mi_lista %}
+               <li class="{% cycle 'row1' 'row2' row3 %}"> <!--- row1 y row2 son los estilos que le voy a dar a cada elemento de la lista clases serian --->
+                  {{elemento}}
+               </li>
+               {% endfor %}
+
+          </ul>
+         
+          
+          
+    
+        </div>
+     </div>
+    <div>
+
+      <div class="container">
+        <div class="row"> 
+          <div class="col-12" style="padding-top: 70px;"></div>
+            <h1>holaaaaa, estoy viendo  listas vacias</h1> 
+        
+            <ul>
+  
+                 {% for elemento in mi_lista2 %}
+                 <li class="{% cycle 'row1' 'row2' row3 %}"> <!--- row1 y row2 son los estilos que le voy a dar a cada elemento de la lista clases serian --->
+                    {{elemento}}
+                 </li>
+                 {% empty %} <!---para cuando no haya elementos en la lista, lo carga con el primer color que encuentra --->
+                 <li class="{% cycle 'row1' 'row2' row3 %}"> <!--- row1 y row2 son los estilos que le voy a dar a cada elemento de la lista clases serian --->
+                  
+                  No existen elementos en la lista
+
+                 </li>
+                 
+                 {% endfor %}
+  
+            </ul>
+           
+          </div>
+       </div>
+      <div>
+
+{% include "descripcion_lateral.html" with nombre="Celeste" apellido="Gramisci" %} <!-- para agregar secciones en la pagina-->
+
+
+<div class="container">
+  <div class="row"> 
+    <div class="col-12" style="padding-top: 70px;"></div>
+      <h1>holaaaaa, estoy viendo  filtros</h1> 
+      
+      {{variable|lower}} <!-- en caso de tener una variable podemos usarla de filtro-->
+
+      {% filter force_escape|lower %} 
+
+          TEXTO RARO TIENE QUE APARECER EN MINUSCULAS 
+
+      {%endfilter %} <!--- para filtrar el texto, en este caso lo escapa y no se ve el html--->
+     
+    </div>
+ </div>
+<div>
+
+
+  <div class="container">
+    <div class="row"> 
+      <div class="col-12 col-lg-4" style="padding-top: 70px;">
+        <h1>hola, estoy viendo sesion, voy a ver el uso de session</h1> 
+       
+      </div>
+      
+      {% for producto in los_productos %}
+      <div class="col-12 col-lg-4" style="padding-top: 70px;">
+          <div class="card" style="width: 18rem;">
+            <img src="/media/{{producto.imagen}}" class="card-img-top" alt="...">
+            <div class="card-body">
+              
+              <h5 class="card-title">{{ producto.nombre }}</h5>
+              <p class="card-text">{{ producto.precio }}</p>
+              <span>{{producto|en_pedido:request.session.el_pedido}}</span>
+
+              <hr/>
+
+              <form action="/templatetags1" method="post">{% csrf_token %}
+               
+                <input type="hidden" name="producto" value="{{ producto.id }}"/>
+                <input type="submit" class = "float-right btn btn-primary" value="Agregar"/>
+                
+              </form>
+           
+
+            </div>
+          </div>
+      </div>
+
+      {% endfor %} 
+
+   </div>
+  
+</div>
+ 
+
+{% endblock %}

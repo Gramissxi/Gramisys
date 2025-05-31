@@ -1,6 +1,6 @@
 import pytest
-from vistaprevia.models import Producto 
-from vistaprevia.models import Marca
+from productos.models import Producto 
+from productos.models import Marca
 from django.contrib.auth.models import User
 
 

@@ -3,7 +3,6 @@
  
 
 
-
 {% block contenedor %}
 
   <!-- Contenido principal del home -->
@@ -75,9 +74,8 @@
             </li>
           {% endfor %}
         </ul>
-        
       </div>
-  
+
       <!-- Productos -->
       <div class="col-md-9">
         <h1 class="titulo-ofertas">¡Ofertas exclusivas para vos!</h1>
@@ -104,4 +102,23 @@
   
     </div>
   </div>
+
+
+  <!-- ESTO ES PARA PRACTICAR JAVASCRIPT -->
+  <main class="container mt-5">
+    <div>
+      <section class="col-12" style="background-color: brown;">
+        <p id="demo">Texto en pagina</p>
+      </section>
+    </div>
      {% endblock %}
+     
+     
+{% block scripts %} 
+     <!-- <script type ="text/javascript" src="{% static 'js/main.js' %}"></script>-->
+
+      <script ="text/javascript">
+        document.getElementById("demo").innerHTML = "¡Hola, nuevo archivo con js??!";
+        console.log("¡Hola, Mundo!");
+      </script>
+{% endblock %}

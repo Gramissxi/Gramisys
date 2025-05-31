@@ -48,12 +48,18 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #apps terceros
 
+    'captcha',
+
     #mis apps
     'vistaprevia.apps.VistapreviaConfig',
     'usuarios.apps.UsuariosConfig',
+    'productos.apps.ProductosConfig',
+    'contacto.apps.ContactoConfig',
+    'tienda.apps.TiendaConfig',
+    
 
 ]
-
+ 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

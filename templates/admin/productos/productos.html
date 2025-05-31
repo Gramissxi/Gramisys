@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block ver_productos %}
+
+
+<div class="container">
+   <div class="row">
+         <div class="col-12">
+            {% for producto in productos %}
+                <li>{{producto.nombre}}<li>
+
+                </li>{{producto.tipo}}</li>    
+            {% endfor %}
+
+         </div>
+   </div>
+</div>
+
+
+{% endblock %}

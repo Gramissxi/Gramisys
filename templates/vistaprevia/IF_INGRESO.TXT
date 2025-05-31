@@ -1,0 +1,16 @@
+<!-- Botón Ingresar  
+      
+         <div class="ms-auto">
+          {% if user.is_authenticated %}
+          <form action="{% url 'auth_logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="boton-salir">Cerrar sesión</button>
+          </form>
+            <span class="bienvenida">Bienvenido {{ user.username }}</span>
+
+          {% else %}
+            <a href="{% url 'auth_login' %}" class="boton-ingresar">Ingresar</a>
+          {% endif %}
+        </div>
+        
+        --> 

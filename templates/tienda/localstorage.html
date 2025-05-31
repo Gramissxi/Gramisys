@@ -1,0 +1,176 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block tienda %}
+
+
+<!-- todo esto es para tomar info del DOM Y CONTROLARLO CON UN CONTROL SECUNDARIO EN LA BD LOCALSTORAGE PARA MANEJAR VARIABLES-->
+
+        <div class="container mt-5">
+            <h1>Productos en "{{ categoria_actual }}"</h1>
+        
+            <div class="row">
+                <a href="{% url 'index' %}">Ir a inicio</a>
+        
+                {% if productos %}
+                    {% for producto in productos %}
+                        <div class="col-md-4">
+                            <div class="card mb-4 shadow-sm">
+                                {% if producto.imagen %}
+                                    <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}">
+                                {% else %}
+                                    <img src="{% static 'no-image.png' %}" class="card-img-top" alt="Sin imagen">
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ producto.nombre }}</h5>
+                                    <p class="card-text">${{ producto.precio }}</p>
+                                    <p class="card-text">Stock: {{ producto.stock }}</p>
+
+                                    <p>Cantidad: <input type="number" class="vervalor" value="1" min="1" /></p>
+                                    <input type="hidden" class="verid" value="{{ producto.id }}"> <!-- Agrego utn: para definir los productos que comiencen con utn_ a modo de ejemplo-->
+                                    
+    
+                                    <button type="button" class="btn btn-primary agregar">Agregar</button>
+                                    </div>
+
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-12">
+                        <p>No hay productos en esta categoría.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+------------------------------------------------------------------------------------------------------------------------------
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            {% for producto in productos %}
+                <a href="{% url 'ver' producto.id%}">
+                    <img src="/media/{{producto.imagen}}"style="width: 30%;"/>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+      
+{% endblock %}
+
+
+{% block scripts %}
+<!-- Cargar jQuery desde CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Cargar plugin de cookies que depende de jQuery -->
+<script src="https://cdn.jsdelivr.net/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
+
+<!-- Tu script personalizado -->
+<script type="text/javascript">
+
+/*jslint browser: true*/
+/*jslint plusplus: true*/
+/*global FormData: false */
+/*global $, jQuery, alert, console*/
+/*...........................................................................
+...................
+... PARA VALIDAR LOS DATOS
+.....................................................
+.............................................................................
+................*/
+var csrftoken = $.cookie('csrftoken');
+
+function csrfSafeMethod(method) {
+ "use strict";
+ return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+
+// esta funcion es para agregar un producto al localStorage
+
+function AgregarI(cada_producto_id, valor) {
+    "use strict";
+    console.log(cada_producto_id, valor)
+    $.ajax({
+        beforeSend : function(xhr, settings) { //
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        },
+
+        url : "/tienda/agregar/",
+        type : "GET",
+        data : { cada_producto_id:cada_producto_id, valor:valor},
+        success : function(json) {
+            console.log(json[0].idproducto.toString());
+            console.log(json[0].cantidad.toString());
+                    localStorage.setItem(json[0].idproducto.toString(),
+json[0].cantidad.toString());
+         //location.reload();
+        console.log("ok++++++++++++++++++++++++");
+        },
+        error : function (xhr, errmsg, err) {
+            console.log('Error en carga de respuesta');
+        }
+        });
+}
+
+
+
+$('.agregar').click(function (event) { //accedo al objeto del dom agregar/classe en html para manejar el click
+ "use strict"; //preguntar para que sirve
+    event.preventDefault(); // Evita la prppagacion de eventos no entiendo
+    let cada_producto_id = $(this).parent().find('.verid').val(); 
+    let valor = $(this).parent().find('.vervalor').val();
+    console.log(cada_producto_id);
+    console.log(valor);
+
+
+
+
+ //PASO 1: Remuevo todo item que no inicia con utn_
+    console.log(JSON.stringify(localStorage)); // verifico que no haya nada en localStorage
+    let i;
+    for(i = 0; i < localStorage.length; i++){
+        let clave_eliminar = localStorage.key(i);
+        console.log("bbbbbbbb");
+        console.log(typeof clave_eliminar); 
+        console.log(clave_eliminar);
+
+      //  if(!clave_eliminar.startsWith("utn_")){ //si no empieza con utn_ lo elimino
+        //    console.log("retorna NO verdadero !!!!!!!!!!!!!");
+            //localStorage.removeItem(clave_eliminar);
+          //  console.log("retorna NO verdadero !!!!!!!!!!!!!");
+// }
+ }
+ //PASO 2: Si es la primera vez que se agrega un producto a localStorage, le asigno el valor de 1
+
+ //Si ya existia un valor en la base tomo ese valor en lugar de 1
+    for(i = 0; i < localStorage.length; i++){
+        let clave = localStorage.key(i);
+        let el_valor = localStorage[clave];
+        if(clave == cada_producto_id){
+            console.log("-----1112------");
+            console.log(clave);
+            console.log(valor);
+            valor = el_valor;
+            console.log("-----1112------");
+        }else{
+            console.log("no hay coincidenciaaaa");
+        }
+ }
+
+AgregarI(cada_producto_id, valor);
+
+
+}); 
+
+
+
+
+</script>
+
+{% endblock %} 

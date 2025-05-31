@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block title %}Contacto{% endblock %}
+{% load static %}
+{% load i18n %}
+
+{% block usuarios %}
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="h1juan" style="padding-left:15px;">Hola estoy en login</h1>
+            <form method="POST" action="">{% csrf_token %}
+                <input type="text" name="username"/>
+                <input type="password" name="password"/>
+                <button type="submit" class="btn btn-danger float-right">
+                    Entrar
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
