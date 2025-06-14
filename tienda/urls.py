@@ -11,6 +11,9 @@ urlpatterns = [
     path('ejemplo_localstorage/', EjemploLocalSotage.as_view(), name="ejemplo_localstorage"), 
     path('agregar/', views_agregar.agregar, name="agregar"),
     path('carrito/', views_agregar.carrito, name='carrito'),
+    path('obtener_desde_localstorage/', views_agregar.productos_desde_localstorage, name='obtener_desde_localstorage'),
+
+    
     
 ]
 

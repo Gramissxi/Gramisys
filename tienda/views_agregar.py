@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from productos.models import Producto
 from django.shortcuts import render
 from productos.models import Categoria
+from django.http import JsonResponse
 
 
 
@@ -10,6 +11,7 @@ def agregar(request, *args, **kwargs):
         if request.method == "GET":
                 idproducto = request.GET.get("cada_producto_id")
                 valor = request.GET.get("valor")
+                
                 carro = request.session.get("carro")
                 idproducto_rec = idproducto[:4]
                 idproducto_rec = int(idproducto_rec)
@@ -75,3 +77,22 @@ def carrito(request):
     }
 
     return render(request, "tienda/carrito.html", context)
+
+def productos_desde_localstorage(request):
+    ids = request.GET.get("ids", "")
+    if not ids:
+        return JsonResponse([], safe=False)
+
+    ids_lista = [int(i) for i in ids.split(",") if i.isdigit()]
+    productos = Producto.objects.filter(id__in=ids_lista)
+
+    data = []
+    for prod in productos:
+        data.append({
+            "id": prod.id,
+            "nombre": prod.nombre,
+            "precio": prod.precio,
+            "imagen": prod.imagen.url if prod.imagen else "",
+        })
+
+    return JsonResponse(data, safe=False)

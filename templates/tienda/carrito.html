@@ -1,109 +1,56 @@
 {% extends "layout.html" %}
-{% load static %}
- 
-
-
-<script src="{% static 'js/main.js' %}"></script>
-
-
 {% block tienda %}
-
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Carrito de Compras</title>
-    <!-- Bootstrap 5 CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-</head>
-<body>
-    <div class="container my-5">
-        <h2 class="mb-4">Tu Carrito de Compras</h2>
-        
-
-        {% if productos %}
-            <table class="table table-striped align-middle">
-                <thead>
-                    <tr>
-                        <th>Producto</th>
-                        <th>Precio Unitario</th>
-                        <th>Cantidad</th>
-                        <th>Subtotal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                                    {% for producto in productos %}
-                    <tr data-id="{{ producto.id }}">
-                        <td class="d-flex align-items-center">
-                        {% if producto.imagen %}
-                        <img src="{{ producto.imagen }}" alt="{{ producto.nombre }}" class="img-thumbnail me-3" style="width: 80px; height: 80px; object-fit: contain;" />
-                        {% endif %}
-                        {{ producto.nombre }}
-                        </td>
-                        <td>${{ producto.precio|floatformat:2 }}</td>
-                        <td>{{ producto.cantidad }}</td>
-                        <td>
-                        <strong>${{ producto.subtotal|floatformat:2 }}</strong>
-                        <span class="float-end">
-                                <button class="btn btn-outline-secondary restar-cantidad" type="button" data-id="{{ producto.id }}">➖</button>
-                                <button class="btn btn-outline-secondary sumar-cantidad" type="button" data-id="{{ producto.id }}">➕</button>
-                                <button class="btn btn-sm btn-danger eliminar-producto" data-id="{{ producto.id }}">❌</button>
-                            </span>
-                        </td>
-                        
-
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-
-            <div class="d-flex justify-content-end fs-4 fw-bold mt-3">
-                Total: ${{ total|floatformat:2 }}
-            </div>
-
-            <div class="d-flex justify-content-end mt-4">
-                <a href="/" class="btn btn-outline-primary me-3">Seguir comprando</a>
-                <a href="{% url 'login' %}" class="btn btn-primary" onclick="window.open(this.href, 'popup', 'width=600,height=600'); return false;" 
-                class="btn btn-primary">Finalizar compra</a>
-            </div>
-           
-
-        {% else %}
-            <div class="alert alert-info text-center" role="alert">
-                Tu carrito está vacío.
-                <br />
-                <a href="/" class="btn btn-primary mt-3">Ir a la tienda</a>
-            </div>
-        {% endif %}
-    </div>
-
-    <!-- Bootstrap JS (opcional) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<h2>Tu carrito</h2>
+<div id="items-carrito"></div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    let contenedor = document.getElementById('items-carrito');
-    let carrito = [];
+document.addEventListener("DOMContentLoaded", () => {
+  const contenedor = document.getElementById("items-carrito");
+  let ids = [];
 
-    for (let i = 0; i < localStorage.length; i++) {
-        let id = localStorage.key(i);
-        let cantidad = localStorage.getItem(id);
-        carrito.push({ id: id, cantidad: cantidad });
+  // 1. Recolectar los IDs guardados en localStorage
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key.startsWith("")) {
+      const id = key.replace("", "");
+      ids.push(id);
     }
+  }
 
-    if (carrito.length === 0) {
-        contenedor.innerHTML = "<p>El carrito está vacío.</p>";
-    } else {
-        let html = "<ul>";
-        carrito.forEach(item => {
-            html += `<li>Producto ID: ${item.id} - Cantidad: ${item.cantidad}</li>`;
+  // 2. Verificar si hay productos y hacer la petición al backend
+  if (ids.length > 0) {
+    fetch(`/tienda/obtener_desde_localstorage/?ids=${ids.join(",")}`)
+      .then(response => response.json())
+      .then(productos => {
+        console.log("Productos recibidos:", productos); // DEBUG en consola
+        let total = 0;
+
+        productos.forEach(producto => {
+          const cantidad = parseInt(localStorage.getItem(producto.id));
+          const subtotal = producto.precio * cantidad;
+          total += subtotal;
+
+          contenedor.innerHTML += `
+            <div class="producto">
+              <img src="${producto.imagen}" width="100" />
+              <h3>${producto.nombre}</h3>
+              <p>Precio: $${producto.precio}</p>
+              <p>Cantidad: ${cantidad}</p>
+              <p>Subtotal: $${subtotal}</p>
+              <hr>
+            </div>
+          `;
         });
-        html += "</ul>";
-        contenedor.innerHTML = html;
-    }
+
+        contenedor.innerHTML += `<h3>Total: $${total}</h3>`;
+      })
+      .catch(error => {
+        console.error("Error al traer productos:", error);
+        contenedor.innerHTML = "<p>Error al cargar el carrito.</p>";
+      });
+  } else {
+    contenedor.innerHTML = "<p>Tu carrito está vacío.</p>";
+  }
 });
 </script>
-
 {% endblock %}
