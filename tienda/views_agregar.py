@@ -18,10 +18,12 @@ def agregar(request, *args, **kwargs):
                 print("stock")
                 stock_actual= int(el_prod.stock)
                 
-                if int(valor) >= stock_actual:
-                    cantidad = int(valor)
+                if int(valor) > stock_actual:
+                    
+                    cantidad = stock_actual
                 else:
-                    cantidad = int(valor) + 1
+                    cantidad = int(valor) #saque el mas 1 porque ya lo estoy sumando desde el front
+
  
  # ###########################################
  # ACTUALIZO VARIABLE DE SESSION

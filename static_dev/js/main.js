@@ -19,17 +19,17 @@ function animateCart() {
 }
 
 function actualizarCarrito() {
-  let totalCantidad = 0;
+  let totalProductos = 0;
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
     const cantidad = parseInt(localStorage.getItem(key));
-    if (!isNaN(cantidad)) {
-      totalCantidad += cantidad;
+    if (!isNaN(cantidad) && cantidad > 0) {
+      totalProductos += 1;  // cuento un producto único
     }
   }
   const cartCount = document.getElementById('cart-count');
   if (cartCount) {
-    cartCount.innerText = totalCantidad;
+    cartCount.innerText = totalProductos;
   }
 }
 

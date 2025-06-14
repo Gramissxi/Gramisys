@@ -135,8 +135,14 @@ $('.agregar').click(function (event) { //accedo al objeto del dom agregar/classe
  "use strict"; //preguntar para que sirve
     event.preventDefault(); // Evita la prppagacion de eventos no entiendo
     let cada_producto_id = $(this).parent().find('.verid').val(); 
+    
+    let cantidad_actual = localStorage.getItem(cada_producto_id);
+    
     let valor = 1;  // siempre se agrega 1 unidad por clic
-
+    
+    if (cantidad_actual !== null) {
+        valor = parseInt(cantidad_actual) + 1;
+}
     console.log(cada_producto_id);
     console.log(valor);
 
@@ -161,24 +167,44 @@ $('.agregar').click(function (event) { //accedo al objeto del dom agregar/classe
  //PASO 2: Si es la primera vez que se agrega un producto a localStorage, le asigno el valor de 1
 
  //Si ya existia un valor en la base tomo ese valor en lugar de 1
-    for(i = 0; i < localStorage.length; i++){
-        let clave = localStorage.key(i);
-        let el_valor = localStorage[clave];
-        if(clave == cada_producto_id){
-            console.log("-----1112------");
-            console.log(clave);
-            console.log(valor);
-            valor = el_valor;
-            console.log("-----1112------");
-        }else{
-            console.log("no hay coincidenciaaaa");
-        }
- }
+    if (cantidad_actual !== null) {
+    valor = parseInt(cantidad_actual) + 1;
+}
 
 AgregarI(cada_producto_id, valor);
 
 
 }); 
+
+function EliminarUno(cada_producto_id) {
+  "use strict";
+
+  let cantidad_actual = localStorage.getItem(cada_producto_id);
+
+  if (cantidad_actual !== null) {
+    let nueva_cantidad = parseInt(cantidad_actual) - 1;
+
+    if (nueva_cantidad > 0) {
+      localStorage.setItem(cada_producto_id, nueva_cantidad.toString());
+    } else {
+      localStorage.removeItem(cada_producto_id); // Si llega a 0 o menos, eliminá el producto
+    }
+
+    mostrarCantidadesDesdeLocalStorage();
+    actualizarCarrito(); // Volvés a actualizar el contador
+  }
+}
+
+$('.eliminar').click(function (event) {
+  "use strict";
+  event.preventDefault();
+
+  let cada_producto_id = $(this).parent().find('.verid').val();
+
+  EliminarUno(cada_producto_id);
+});
+
+
 
 function mostrarCantidadesDesdeLocalStorage() {
   $('.cantidad-en-carrito').each(function () {
@@ -204,6 +230,9 @@ $('#vaciar-carrito').click(function () {
     actualizarCarrito(); // Actualiza y anima el contador
     alert("Carrito vaciado");
 });
+
+
+
 
 </script>
 
