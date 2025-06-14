@@ -19,19 +19,29 @@ function animateCart() {
 }
 
 function actualizarCarrito() {
-  let totalProductos = 0;
+  const cartCount = document.getElementById('cart-count');
+  if (!cartCount) return;
+
+  let totalProductosDistintos = 0;
+
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
-    const cantidad = parseInt(localStorage.getItem(key));
-    if (!isNaN(cantidad) && cantidad > 0) {
-      totalProductos += 1;  // cuento un producto único
+
+    if (!isNaN(key)) {
+      const cantidad = parseInt(localStorage.getItem(key), 10);
+
+      if (!isNaN(cantidad) && cantidad > 0) {
+        totalProductosDistintos += 1;  // solo sumo 1 por producto con cantidad > 0
+      }
     }
   }
-  const cartCount = document.getElementById('cart-count');
-  if (cartCount) {
-    cartCount.innerText = totalProductos;
-  }
+
+  cartCount.textContent = totalProductosDistintos;
+
+  animateCart();
 }
+
+
 
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -89,4 +99,4 @@ document.addEventListener('DOMContentLoaded', function() {
     
 
 
-});
+})
