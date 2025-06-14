@@ -25,11 +25,21 @@
                                     <p class="card-text">${{ producto.precio }}</p>
                                     <p class="card-text">Stock: {{ producto.stock }}</p>
 
-                                    <p>Cantidad: <input type="number" class="vervalor" value="1" min="1" /></p>
-                                    <input type="hidden" class="verid" value="{{ producto.id }}"> <!-- Agrego utn: para definir los productos que comiencen con utn_ a modo de ejemplo-->
+                                <!-- <p>Cantidad: <input type="number" class="vervalor" value="1" min="1" /></p> -->
+                                <!--    <input type="hidden" class="verid" value="{{ producto.id }}"> -->
+                                    <!-- Agrego utn: para definir los productos que comiencen con utn_ a modo de ejemplo-->
                                     
+                                    <p class="card-text">
+                                    Cantidad en carrito: <span class="cantidad-en-carrito" data-id="{{ producto.id }}">0</span>
+                                    </p>
+
+                                    <input type="hidden" class="verid" value="{{ producto.id }}">
+                                    <input type="hidden" class="vervalor" value="{{ producto.cantidad }}">
+
+
     
                                     <button type="button" class="btn btn-primary agregar">Agregar</button>
+                                    <button type="button" class="btn btn-primary eliminar">Borrar</button>
                                     </div>
 
                             </div>
@@ -43,6 +53,12 @@
             </div>
         </div>
 
+
+<div>
+    <h1>Probando funciones nuevas</h1>
+    <button id="vaciar-carrito" class="btn btn-danger">Vaciar carrito</button>
+
+</div>
 
       
 {% endblock %}
@@ -97,7 +113,12 @@ function AgregarI(cada_producto_id, valor) {
                     localStorage.setItem(json[0].idproducto.toString(),
 json[0].cantidad.toString());
          //location.reload();
-         
+        
+
+        let id = json[0].idproducto.toString();
+        let cantidad = json[0].cantidad.toString();
+        localStorage.setItem(id, cantidad);
+        mostrarCantidadesDesdeLocalStorage();
         actualizarCarrito(); // Actualiza y anima el contador
 
         console.log("ok++++++++++++++++++++++++");
@@ -114,7 +135,8 @@ $('.agregar').click(function (event) { //accedo al objeto del dom agregar/classe
  "use strict"; //preguntar para que sirve
     event.preventDefault(); // Evita la prppagacion de eventos no entiendo
     let cada_producto_id = $(this).parent().find('.verid').val(); 
-    let valor = $(this).parent().find('.vervalor').val();
+    let valor = 1;  // siempre se agrega 1 unidad por clic
+
     console.log(cada_producto_id);
     console.log(valor);
 
@@ -158,8 +180,30 @@ AgregarI(cada_producto_id, valor);
 
 }); 
 
+function mostrarCantidadesDesdeLocalStorage() {
+  $('.cantidad-en-carrito').each(function () {
+    let id = $(this).data('id').toString();
+    let cantidad = localStorage.getItem(id);
+    if (cantidad !== null) {
+      $(this).text(cantidad);
+    } else {
+      $(this).text("0");
+    }
+  });
+}
 
 
+$(document).ready(function () {
+  mostrarCantidadesDesdeLocalStorage();
+});
+
+//vaciar carrito
+$('#vaciar-carrito').click(function () {
+    localStorage.clear();
+    mostrarCantidadesDesdeLocalStorage();
+    actualizarCarrito(); // Actualiza y anima el contador
+    alert("Carrito vaciado");
+});
 
 </script>
 
