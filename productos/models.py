@@ -9,11 +9,12 @@ class Categoria(models.Model):
     def __str__(self):
         return '%s' % self.nombre
     
-class Sub_categoria(models.Model):
-    nombre = models.CharField(max_length=200) 
+class Subcategoria(models.Model):
+    nombre = models.CharField(max_length=200)
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, related_name='subcategorias') 
 
     def __str__(self, ):
-        return '%s' % self.nombre
+        return f'{self.nombre}'
 
 class Marca(models.Model):
     nombre = models.CharField(max_length=200) 
@@ -41,19 +42,39 @@ class Producto(models.Model):
         ('Limón','Limón'),
         ('Pera','Pera'),
         ('Uva','Uva'),
-        ('Naranja','Naranja')
+        ('Naranja','Naranja'),
+        ('Durazno','Durazno'),
+        ('Frutilla','Frutilla'),
+        ('Tirabuzón','Tirabuzón'),
+        ('Limonada','Limonada'),
+        ('Tónica','Tónica'),
+        ('Spaghetti','Spaghetti'),
+        ('Moño','Moño'),
+        ('Fusilli','Fusilli'),
+        ('Codito','Codito'),
+        ('Cinta','Cinta'),
+        ('Fetuccine','Fettuccine'),
+        ('Mostacchioli','Mostaccioli'),
+        ('Dadito','Dadito'),
+        ('Caracol','Caracol'),
+        ('Integral','Integral'),
+        ('Fino','Fino'),
+        ('Largo','Largo'),
+        ('Descremada','Descremada'),
+        ('Entera','Entera'),
+        ('Semidescremada','Semidescremada'),
+        ('Descremada saborizada','Descremada saborizada'),
+        ('Entera saborizada','Entera saborizada'),
+        ('Semidescremada saborizada','Semidescremada saborizada'),
+        ('Al aceite', 'Al aceite'),
+        ('Al natural', 'Al natural')
         ]
-    
-    nombre= models.CharField(max_length=100, null=True,blank=True )
+    nombre = models.CharField(max_length=255, blank=True, null=True)  
     precio= models.IntegerField()
     stock= models.IntegerField()
     fecha_ingreso= models.DateField(null= True, blank=True)
     #Tablas concatenadas
-    categoria=models.ForeignKey(Categoria,blank=False, null=True, on_delete=models.CASCADE)# relacion con tabla categoria
-    
-    sub_categoria=models.ForeignKey(Sub_categoria,blank=False, null=True, on_delete=models.CASCADE)# relacion con tabla categoria
-
-
+    subcategoria=models.ForeignKey(Subcategoria,blank=False, null=True, on_delete=models.CASCADE, related_name='productos')# relacion con tabla categoria
     marca= models.ForeignKey(Marca, on_delete=models.CASCADE) #relacion con tabla marca
     imagen = models.ImageField(upload_to='productos/%Y/%m/%d/', null=True, blank=True) #nueva 
 
@@ -62,8 +83,7 @@ class Producto(models.Model):
     tamaños = models.CharField(max_length=100, choices=Tamaños, null=True,blank=True)
 
     def save(self, *args, **kwargs):
-        if not self.nombre and self.marca:
-            self.nombre= self.marca.nombre
+        self.nombre = f"{self.subcategoria} {self.marca} {self.tipo}"
         super().save(*args, **kwargs)
     
 
@@ -78,6 +98,6 @@ class Producto(models.Model):
     
 
     def __str__(self):
-        return f" {self.categoria} - {self.sub_categoria} -- {self.marca} - {self.precio} - {self.nombre} - {self.tipo or ''} - {self.tamaños}-{self.fecha_ingreso}" 
+        return f" {self.subcategoria.categoria} - {self.subcategoria} -- {self.marca} - {self.precio} - {self.nombre} - {self.tipo or ''} - {self.tamaños}-{self.fecha_ingreso}" 
         
     

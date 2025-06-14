@@ -42,20 +42,7 @@
                 {% endif %}
             </div>
         </div>
-------------------------------------------------------------------------------------------------------------------------------
 
-
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-            {% for producto in productos %}
-                <a href="{% url 'ver' producto.id%}">
-                    <img src="/media/{{producto.imagen}}"style="width: 30%;"/>
-                </a>
-            {% endfor %}
-        </div>
-    </div>
-</div>
 
       
 {% endblock %}
@@ -110,6 +97,9 @@ function AgregarI(cada_producto_id, valor) {
                     localStorage.setItem(json[0].idproducto.toString(),
 json[0].cantidad.toString());
          //location.reload();
+         
+        actualizarCarrito(); // Actualiza y anima el contador
+
         console.log("ok++++++++++++++++++++++++");
         },
         error : function (xhr, errmsg, err) {

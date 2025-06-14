@@ -1,20 +1,47 @@
-{% extends "layout.html" %}
-{% block title %}Contacto{% endblock %}
+{% extends "base.html" %}
 {% load static %}
 {% load i18n %}
 
 {% block usuarios %}
 
-<div class="container mt-5 mb-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <h1 class="h1juan" style="padding-left:15px;">Hola estoy en registro</h1>
-            <form method="POST" action="">{% csrf_token %}
-                    {{form}}
-                <button type="submit" class="btn btn-danger float-right">
-                    Registrar
-                </button>
-
+<div class="container min-vh-100 d-flex justify-content-center align-items-center">
+<div class="row justify-content-center">
+        
+            <div class="card shadow">
+                <div class="card-body p-4">
+                    <h2 class="mb-4 text-center">Registro de usuario</h2>
+                    <form method="POST" action="{% url 'registro' %}">
+                        {% csrf_token %}
+                        
+                        {% for field in form %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">{{ field.label_tag }}</label>
+                                {{ field }}
+                                
+                                {% if field.errors %}
+                                    <div class="text-danger small">
+                                        {{ field.errors|striptags }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <p class="form-text text-muted small">
+                            La contraseña debe contener al menos:
+                                <ul class="small">
+                                    <li>Una letra minúscula</li>
+                                    <li>Una letra mayúscula</li>
+                                    <li>Un número</li>
+                                    <li>Un carácter especial (por ejemplo: @, #, $, %, &amp;)</li>
+                                    <li>Mínimo 8 caracteres</li>
+                                </ul>
+                        </p>
+                        <button type="submit" class="btn btn-primary w-100">
+                            Registrar
+                        </button>
+                    </form>
+                </div>
+            </div>
+            </div>
         </div>
     </div>
 </div>

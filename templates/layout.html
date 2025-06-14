@@ -1,117 +1,107 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load static %}
 
-    {% block content %} 
-    <nav class="navbar navbar-expand-lg mi-nav">
-        <div class="container-fluid d-flex justify-content-between align-items-center">
-      
-          <!-- Logo -->
+<script src="{% static 'js/main.js' %}"></script>
+
+    
+ {% block content %} 
+    <nav class="navbar navbar-expand-lg shadow-sm py-3" style="background-color: #06f385;">
+      <div class="container-fluid d-flex justify-content-between align-items-center">
+        <!-- Logo y eslogan -->
+        <div class="d-flex align-items-center gap-3">
           <a class="navbar-brand d-flex align-items-center logo" href="{% url 'index' %}">
-            <img src="http://127.0.0.1:8000/media/producto/2025/02/15/logo1.png" alt="Logo GramiSys" width="60" height="60">
+            <img src="http://127.0.0.1:8000/media/producto/2025/02/15/logo1.png" alt="Logo GramiSys" width="60" height="60" class="rounded-circle border border-2 border-light shadow-sm">
           </a>
-          <p class="eslogan">Tu mercado de confianza</p>
-          <!-- Buscador centrado -->
-          <form class="buscador-centrado" role="search">
-            <input class="form-control me-2" type="search" placeholder="¿Qué queres comprar hoy?">
-            <button class=" boton-buscar" type="submit">Buscar</button>
-          </form>
+          <span class="eslogan fs-5 fw-semibold text-white">Tu mercado de confianza</span>
+        </div>
+
+        <!-- Buscador centrado -->
+        <form class="d-flex align-items-center mx-auto buscador-centrado" role="search" style="max-width: 500px; width: 100%;">
+          <input class="form-control me-2 rounded-pill shadow-sm" type="search" placeholder="¿Qué querés comprar hoy?" aria-label="Buscar">
+          <button class="btn btn-light rounded-pill px-4 fw-bold text-success" type="submit">Buscar</button>
+          <a class="btn btn-link ms-3 text-decoration-none text-white fw-semibold" href="{% url 'contacto' %}"
+          onclick="window.open(this.href, 'popup', 'width=600,height=600'); return false;">Contacto</a>
+          
+
+          
+        </form>
+
+        <!-- Botón Ingresar  -->
       
+         <div class="ms-auto">
+          {% if user.is_authenticated %}
+          <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="boton-salir">Cerrar sesión</button>
+          </form>
+            <span class="bienvenida">Bienvenido {{ user.username }}</span>
+
+          {% else %}
+            
+            <a href="{% url 'login' %}" class="boton-ingresar"
+                onclick="window.open(this.href, 'popup', 'width=600,height=600'); return false;" 
+                class="btn btn-primary">
+                Ingresar
+            </a>
+
+          {% endif %}
         </div>
         
-         
-       
-      </nav>
-  
-
- 
-
-  <!-- menu con lo que indica el profe modulo 1 nivel intermedio cargar producto y contacto ACA ARRIBA IBA EL INGRESAR CON EL IF-->
-
-
-
-
-  <div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-      Opciones de sitio
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-      <li><a class="dropdown-item" href="{% url 'cargar' %}">Cargar producto</a></li>
-      <li><a class="dropdown-item" href="{% url 'contacto' %}">Contacto</a></li>
-    </ul>
-  </div>
-
-  <!-- menu con lo que indica el profe modulo 2 nivel intermedio FILTERS Y TEMPLATETAGS-->
-
-  <div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-      templatetags y filters
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-      <li><a class="dropdown-item" href="{% url 'templatetags1' %}">templatetags</a></li>
-      <li><a class="dropdown-item" href="{% url 'contacto' %}">Contacto</a></li>
-    </ul>
-  </div>
-
-  <!-- menu con lo que indica el profe modulo 3 SIGNALS-->
-
-   <div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-      signals
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-      <li><a class="dropdown-item" href="{% url 'login' %}">login</a></li>
-      <li><a class="dropdown-item" href="{% url 'logout' %}">logout</a></li>
-      <li><a class="dropdown-item" href="{% url 'registro' %}">Registro</a></li>
-    </ul>
-  </div>
-
- 
-  <!-- menu con lo que indica el profe modulo localstorage -->
-
-<div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-      LocalStorage
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-      <li><a class="dropdown-item" href="{% url 'ejemplo_localstorage' %}">Localstoge</a></li>
-      <li><a class="dropdown-item" href="{% url 'logout' %}">logout</a></li>
-      <li><a class="dropdown-item" href="{% url 'registro' %}">Registro</a></li>
-    </ul>
-  </div>
-
-  <!-- menu con categorias -->
-  <div class="dropdown-center menu-categorias d-flex flex-wrap justify-content-center gap-3 ">
-    {% for categoria in categorias %}
-      <div class="btn-group" role="group">
-        <button type="button" class="btn botondes dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-          {{ categoria.nombre }}
-        </button>
-        <ul class="dropdown-menu">
-          <li>
-            <a class="dropdown-item fw-bold nombre-categoria" href="{% url 'productos_por_categoria' categoria.id %}">
-              Ver {{ categoria.nombre }}
-            </a>
-          </li>
-          <li><hr class="dropdown-divider"></li>
-          {% for producto in categoria.producto_set.all %}
-            <li>
-              <a class="dropdown-item" href="{% url 'detalle_producto' producto.id %}">{{ producto.sub_categoria }}</a>
-            </li>
+        
+        <!-- Carrito -->
+        <a href="{% url 'carrito' %}" class="btn btn-outline-light position-relative ms-3">
+          <span style="font-size: 1.5rem;">🛒</span>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count" style="font-size: 1rem;">0</span>
+          <span class="ms-2 fw-semibold text-white">Carrito</span>
+        </a>
+      </div>
+    </nav>
+    <nav>
+      <!-- Menú con categorías usando Bootstrap -->
+      <div class="d-flex flex-wrap justify-content-center gap-3 menu-categorias py-2" style="background-color: #7af1b9;">
+        {% for categoria in categorias %}
+          <div class="dropdown">
+            <button class="btn btn-success dropdown-toggle fw-semibold" type="button" id="dropdownCategoria{{ forloop.counter }}" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #198754; border: none;">
+              {{ categoria.nombre }} 
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownCategoria{{ forloop.counter }}">
+              <li>
+                <a class="dropdown-item fw-bold" href="{% url 'productos_por_categoria' categoria.id %}">
+                Ver todos los productos de {{ categoria.nombre }}
+                </a>
+              </li>
+                {% for subcategoria in categoria.subcategorias.all %}
+              <li>
+                <a class="dropdown-item" href="{% url 'productos_por_subcategoria' subcategoria.id %}">
+                  {{ subcategoria.nombre }}
+                </a>
+              </li>
           {% empty %}
-            <li><span class="dropdown-item">Sin productos</span></li>
+        <li><span class="dropdown-item text-muted">Sin subcategorías</span></li>
           {% endfor %}
         </ul>
+        </div>
+      {% endfor %}
       </div>
-    {% endfor %}
-  </div>
-  
+    </nav>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    let total = 0;
+    for (let i = 0; i < localStorage.length; i++) {
+      total += parseInt(localStorage.getItem(localStorage.key(i)));
+    }
+    document.getElementById('cart-count').innerText = total;
+    });
+</script>
 
 
-  
-  
-    {% block contenedor %}{% endblock %}
-    {% block contacto %}{% endblock %}
-    {% block usuarios %}{% endblock %}
+
+
+    
+   {% block contenedor %}{% endblock %}
+   
     {% block tienda %}{% endblock %}
 
     {% endblock %}

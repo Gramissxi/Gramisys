@@ -1,29 +1,40 @@
-{% extends "layout.html" %}
+{% extends "base.html" %}
 {% load static %}
 {% load i18n %}
 
 {% block title %}Contacto{% endblock %}
 {% block contacto %}
 
-<div class="container mt-5 mb-5">
+<div class="container min-vh-100 d-flex justify-content-center align-items-center">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <h1 class="h1juan" style="padding-left:15px;">Contacto</h1>
-
-            <form method="post">
-                {% csrf_token %}
-                <div class="mb-3">
-                    {{form}}
+        
+            <div class="card shadow">
+                <div class="card-body p-4">
+                    <h2 class="mb-4 text-center">Contactenos</h2>
+                    <form method="post" autocomplete="off">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="mb-4">
+                                <label for="{{ field.id_for_label }}" class="form-label" style="padding-left:10px; font-weight:500;">
+                                    {{ field.label }}
+                                </label>
+                                {{ field }}
+                                {% if field.errors %}
+                                    <div class="text-danger small" style="padding-left:10px;">
+                                        {{ field.errors|striptags }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <div class="d-grid gap-2 col-8 mx-auto">
+                            <button type="submit" class="btn btn-primary btn-block">Enviar</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <button type="submit" class="col-md-8">Enviar</button>
-                    
-                </div>
-           
-            </form>
-
+            </div>
         </div>
     </div>
 </div>
+
 
 {% endblock %}

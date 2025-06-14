@@ -11,6 +11,7 @@ urlpatterns = [
     path('', views.index, name='index'), #funcion index en views 
 
     path('categoria/<int:categoria_id>/', views.productos_por_categoria, name='productos_por_categoria'),
+    path('subcategoria/<int:subcategoria_id>/', views.productos_por_subcategoria, name='productos_por_subcategoria'),
     path('producto/<int:producto_id>/', views.detalle_producto, name='detalle_producto'),
 
 

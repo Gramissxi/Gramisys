@@ -10,5 +10,9 @@ urlpatterns = [
     path('verimagenes/', VerImagenes.as_view(), name="verimagenes"),
     path('ejemplo_localstorage/', EjemploLocalSotage.as_view(), name="ejemplo_localstorage"), 
     path('agregar/', views_agregar.agregar, name="agregar"),
- 
+    path('carrito/', views_agregar.carrito, name='carrito'),
+    
 ]
+
+ 
+

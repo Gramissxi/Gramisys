@@ -1,9 +1,12 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from productos.models import Producto, Categoria, Marca
+from productos.models import Producto, Subcategoria ,Categoria, Marca
 from tienda.forms import CargarForm
 from django.http import Http404 # para que es?
 from django.views.generic import View
+
+
+
 
 
 def cargar_imagen(request):
@@ -18,24 +21,24 @@ def cargar_imagen(request):
         
         if form.is_valid():
 
-            nombre= form.cleaned_data['nombre']
+            subcategoria= form.cleaned_data['subcategoria']
             precio= form.cleaned_data['precio']
             stock= form.cleaned_data['stock']
-            categoria= form.cleaned_data['categoria']
+            
             tipo= form.cleaned_data['tipo']
             tamaños= form.cleaned_data['tamaños']
             marca= form.cleaned_data['marca']
             fecha_ingreso= form.cleaned_data['fecha_ingreso']
             imagen= form.cleaned_data['imagen']
 
-            nuevo_producto=Producto(nombre=nombre,precio=precio, stock=stock, categoria=categoria,tipo=tipo,tamaños=tamaños, marca=marca, fecha_ingreso=fecha_ingreso, imagen=imagen)
+            nuevo_producto=Producto(subcategoria=subcategoria, precio=precio, stock=stock ,tipo=tipo,tamaños=tamaños, marca=marca, fecha_ingreso=fecha_ingreso, imagen=imagen)
             nuevo_producto.save()
             return redirect('index')
 
     else:
         form = CargarForm()
         params['form'] = form 
-        params['categorias'] = Categoria.objects.all() #aca agregue esta linea porque tengo tablas de categoria y marca que un encargado de stock se va a encargar
+        params['subcategorias'] = Subcategoria.objects.all() #aca agregue esta linea porque tengo tablas de categoria y marca que un encargado de stock se va a encargar
         params['marcas'] = Marca.objects.all() #de cargas desde el panel de admin y la cajera va a directamente cargar un producto segun la categoria y marca que esten ya cargados
         return render(request, 'tienda/formulario.html', params)
 

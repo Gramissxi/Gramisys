@@ -14,8 +14,16 @@ class ConsultaForm(ModelForm):
             'descripcion',
             'mail',
             'telefono',
-        
         ]
+        widgets = {
+            'descripcion': forms.Textarea(attrs={
+                'rows': 3,   # cantidad de filas visibles
+                'cols': 40,  # cantidad de columnas visibles (puede omitirse)
+                'class': 'form-control',
+                'placeholder': 'Escribí una descripción breve...'
+            }),
+        }
+        
 
     def send_email(self,):
         nombre= self.cleaned_data['nombre']

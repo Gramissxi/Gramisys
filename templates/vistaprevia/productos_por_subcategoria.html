@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block contenedor %}  
+<div class="container mt-5">
+  <h2 class="mb-4">Productos de la Subcategoría</h2>
+  
+
+
+  {% if productos %}
+    <div class="row">
+      {% for producto in productos %}
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 shadow-sm">
+            {% if producto.imagen %}
+              <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}">
+            {% else %}
+              <img src="{% static 'img/placeholder.png' %}" class="card-img-top" alt="Sin imagen">
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ producto.nombre }}</h5>
+              <p class="card-text">${{ producto.precio }}</p>
+              <a href="{% url 'detalle_producto' producto.id %}" class="btn btn-primary">Ver detalle</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-warning">
+      No hay productos en esta subcategoría.
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

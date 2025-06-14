@@ -1,0 +1,54 @@
+
+  <!-- menu con lo que indica el profe modulo 1 nivel intermedio cargar producto y contacto ACA ARRIBA IBA EL INGRESAR CON EL IF-->
+
+
+
+
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+      Opciones de sitio
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+      <li><a class="dropdown-item" href="{% url 'cargar' %}">Cargar producto</a></li>
+      <li><a class="dropdown-item" href="{% url 'contacto' %}">Contacto</a></li>
+    </ul>
+  </div>
+
+  <!-- menu con lo que indica el profe modulo 2 nivel intermedio FILTERS Y TEMPLATETAGS-->
+
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+      templatetags y filters
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+      <li><a class="dropdown-item" href="{% url 'templatetags1' %}">templatetags</a></li>
+      <li><a class="dropdown-item" href="{% url 'contacto' %}">Contacto</a></li>
+    </ul>
+  </div>
+
+  <!-- menu con lo que indica el profe modulo 3 SIGNALS-->
+
+   <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+      signals
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+      <li><a class="dropdown-item" href="{% url 'login' %}">login</a></li>
+      <li><a class="dropdown-item" href="{% url 'logout' %}">logout</a></li>
+      <li><a class="dropdown-item" href="{% url 'registro' %}">Registro</a></li>
+    </ul>
+  </div>
+
+ 
+  <!-- menu con lo que indica el profe modulo localstorage -->
+
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+      LocalStorage
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+      <li><a class="dropdown-item" href="{% url 'ejemplo_localstorage' %}">Localstoge</a></li>
+      <li><a class="dropdown-item" href="{% url 'logout' %}">logout</a></li>
+      <li><a class="dropdown-item" href="{% url 'registro' %}">Registro</a></li>
+    </ul>
+  </div>

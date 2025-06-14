@@ -5,34 +5,49 @@ from django.views.generic import View
 import datetime
 from django.shortcuts import redirect
 
+
 def index(request):
     productos = Producto.objects.all()  
-    categorias = Categoria.objects.annotate(total_productos=Count('producto'))  # para contar los productos que hay
-    categorias_con_productos = Categoria.objects.prefetch_related('producto_set') #para ver los productos que hay en las categorias del menu de arriba
+    categorias = Categoria.objects.annotate(total_productos=Count('subcategorias__productos'))
+    categorias = categorias.prefetch_related('subcategorias')
+    
     params = {
         'nombre_sitio': 'GramiSys',
         'productos': productos,
         'categorias': categorias,
-        'categorias_con_productos':categorias_con_productos
-        
+        'categorias_con_productos': Categoria.objects.prefetch_related('producto_set'),
     }
     return render(request, 'vistaprevia/index.html', params)
 
 
 def productos_por_categoria(request, categoria_id):
-    productos = Producto.objects.filter(categoria_id=categoria_id)
+    categoria = Categoria.objects.get(id=categoria_id)  
+    productos = Producto.objects.filter(subcategoria__categoria_id=categoria_id)
     categorias = Categoria.objects.all()
+
     params = {
         'productos': productos,
         'categorias': categorias,
-        'categoria_actual': categoria_id,
+        'categoria': categoria,  
     }
     return render(request, 'vistaprevia/productos_por_categoria.html', params)
 
+def productos_por_subcategoria(request, subcategoria_id):
+    productos = Producto.objects.filter(subcategoria_id=subcategoria_id)
+    categorias = Categoria.objects.all()
+    return render(request, 'vistaprevia/productos_por_subcategoria.html', {
+        'productos': productos,
+        'categorias': categorias
+    })
+
+
 def detalle_producto(request, producto_id):
     producto = Producto.objects.get(id=producto_id)
-    return render(request, 'vistaprevia/detalle_producto.html', {'producto': producto})
-
+    categorias = Categoria.objects.all()  # <-- Agregá esto
+    return render(request, 'vistaprevia/detalle_producto.html', {
+        'producto': producto,
+        'categorias': categorias  # <-- Y pasalo acá
+    })
 class Templatetags1(View):
     template = "vistaprevia/templatetags1.html"
 

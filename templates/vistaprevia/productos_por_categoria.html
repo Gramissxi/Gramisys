@@ -5,7 +5,7 @@
 
 {% block contenedor %}
 <div class="container mt-5">
-    <h1>Productos en "{{ categoria_actual }}"</h1>
+    <h1>Productos de {{ categoria.nombre }}</h1>
 
     <div class="row">
         <a href="{% url 'index' %}">Ir a inicio</a>
