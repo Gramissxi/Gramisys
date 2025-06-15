@@ -6,51 +6,125 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const contenedor = document.getElementById("items-carrito");
-  let ids = [];
-
-  // 1. Recolectar los IDs guardados en localStorage
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key.startsWith("")) {
-      const id = key.replace("", "");
-      ids.push(id);
+  
+  function actualizarTotal() {
+    let total = 0;
+    contenedor.querySelectorAll(".producto").forEach(productoDiv => {
+      const precio = parseFloat(productoDiv.dataset.precio);
+      const cantidad = parseInt(productoDiv.querySelector(".vervalor").value);
+      total += precio * cantidad;
+      productoDiv.querySelector(".cantidad-en-carrito").textContent = cantidad;
+      productoDiv.querySelector(".subtotal").textContent = "$" + (precio * cantidad);
+    });
+    const totalElem = contenedor.querySelector("#total-carrito");
+    if(totalElem) {
+      totalElem.textContent = "Total: $" + total;
+    } else {
+      contenedor.insertAdjacentHTML("beforeend", `<h3 id="total-carrito">Total: $${total}</h3>
+                                   <button id="vaciar-carrito" class="btn btn-danger">Vaciar carrito</button> `);
     }
   }
 
-  // 2. Verificar si hay productos y hacer la petición al backend
-  if (ids.length > 0) {
+  // Cargar productos desde localStorage y backend
+  function cargarCarrito() {
+    let ids = [];
+    for(let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      // si usás algún prefijo para las claves, filtralo acá
+      ids.push(key);
+    }
+    if(ids.length === 0) {
+      contenedor.innerHTML = "<p>Tu carrito está vacío.</p>";
+      return;
+    }
+    
     fetch(`/tienda/obtener_desde_localstorage/?ids=${ids.join(",")}`)
       .then(response => response.json())
       .then(productos => {
-        console.log("Productos recibidos:", productos); // DEBUG en consola
-        let total = 0;
-
+        contenedor.innerHTML = "";
         productos.forEach(producto => {
-          const cantidad = parseInt(localStorage.getItem(producto.id));
-          const subtotal = producto.precio * cantidad;
-          total += subtotal;
-
-          contenedor.innerHTML += `
-            <div class="producto">
+          const cantidad = parseInt(localStorage.getItem(producto.id)) || 0;
+          contenedor.insertAdjacentHTML("beforeend", `
+            <div class="producto" data-precio="${producto.precio}">
               <img src="${producto.imagen}" width="100" />
               <h3>${producto.nombre}</h3>
               <p>Precio: $${producto.precio}</p>
-              <p>Cantidad: ${cantidad}</p>
-              <p>Subtotal: $${subtotal}</p>
+              <p>Cantidad: <span class="cantidad-en-carrito">${cantidad}</span></p>
+              <p>Subtotal: <span class="subtotal">$${producto.precio * cantidad}</span></p>
+
+              <input type="hidden" class="verid" value="${producto.id}">
+              <input type="hidden" class="vervalor" value="${cantidad}">
+
+              <button type="button" class="btn btn-primary agregar">Agregar</button>
+              <button type="button" class="btn btn-danger eliminar">Borrar</button>
+
               <hr>
             </div>
-          `;
-        });
+         
 
-        contenedor.innerHTML += `<h3>Total: $${total}</h3>`;
+          `);
+        });
+        actualizarTotal();
       })
       .catch(error => {
-        console.error("Error al traer productos:", error);
+        console.error("Error al cargar productos:", error);
         contenedor.innerHTML = "<p>Error al cargar el carrito.</p>";
       });
-  } else {
-    contenedor.innerHTML = "<p>Tu carrito está vacío.</p>";
   }
+// Escuchamos clicks en el botón vaciar (evento delegado)
+$(document).on('click', '#vaciar-carrito', function () {
+  // 1. Vacía el localStorage
+  localStorage.clear();
+
+  // 2. Borra todo el HTML del carrito
+  const contenedor = document.getElementById("items-carrito");
+  contenedor.innerHTML = "<p>Tu carrito está vacío.</p>";
+
+  // 3. (Opcional) Actualiza contador si usás
+  if (typeof mostrarCantidadesDesdeLocalStorage === "function") {
+    mostrarCantidadesDesdeLocalStorage();
+  }
+
+  if (typeof actualizarCarrito === "function") {
+    actualizarCarrito();
+  }
+});
+
+
+  // Delegación de eventos para botones Agregar y Borrar
+  contenedor.addEventListener("click", (e) => {
+    if(e.target.classList.contains("agregar")) {
+      const productoDiv = e.target.closest(".producto");
+      const id = productoDiv.querySelector(".verid").value;
+      let cantidadActual = parseInt(localStorage.getItem(id)) || 0;
+      cantidadActual++;
+      localStorage.setItem(id, cantidadActual);
+      productoDiv.querySelector(".vervalor").value = cantidadActual;
+      actualizarTotal();
+      productoDiv.querySelector(".cantidad-en-carrito").textContent = cantidadActual;
+    }
+
+    if(e.target.classList.contains("eliminar")) {
+      const productoDiv = e.target.closest(".producto");
+      const id = productoDiv.querySelector(".verid").value;
+      let cantidadActual = parseInt(localStorage.getItem(id)) || 0;
+      cantidadActual--;
+      if(cantidadActual > 0) {
+        localStorage.setItem(id, cantidadActual);
+        productoDiv.querySelector(".vervalor").value = cantidadActual;
+        productoDiv.querySelector(".cantidad-en-carrito").textContent = cantidadActual;
+      } else {
+        localStorage.removeItem(id);
+        productoDiv.remove();
+        if(contenedor.querySelectorAll(".producto").length === 0) {
+          contenedor.innerHTML = "<p>Tu carrito está vacío.</p>";
+        }
+      }
+      actualizarTotal();
+    }
+  });
+
+  cargarCarrito();
 });
 </script>
 {% endblock %}
