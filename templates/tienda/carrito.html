@@ -1,7 +1,24 @@
 {% extends "layout.html" %}
 {% block tienda %}
-<h2>Tu carrito</h2>
-<div id="items-carrito"></div>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-10"></div>
+      <div class="card shadow-lg border-0">
+        <div class="card-header bg-primary text-white text-center py-4 rounded-top">
+          <h2 class="mb-0"><i class="bi bi-cart4 me-2"></i>Tu carrito</h2>
+        </div>
+        <div class="card-body bg-light" id="items-carrito" style="min-height: 120px;">
+        
+        </div>
+       
+      </div>
+    
+    </div>
+    
+  </div>
+</div>
+
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -20,8 +37,21 @@ document.addEventListener("DOMContentLoaded", () => {
     if(totalElem) {
       totalElem.textContent = "Total: $" + total;
     } else {
-      contenedor.insertAdjacentHTML("beforeend", `<h3 id="total-carrito">Total: $${total}</h3>
-                                   <button id="vaciar-carrito" class="btn btn-danger">Vaciar carrito</button> `);
+
+contenedor.insertAdjacentHTML("beforeend", `
+  <div class="d-flex justify-content-between align-items-center mb-3">
+        <a href="{% url 'login' %}" class="boton-finalizar-compra"
+                onclick="window.open(this.href, 'popup', 'width=600,height=600'); return false;" 
+                class="btn btn-primary">
+                Finalizar
+        </a>
+        
+    <h3 id="total-carrito" class="mb-0">Total: $${total}</h3>
+    <button id="vaciar-carrito" class="btn btn-danger">Vaciar carrito</button>
+  </div>
+`);
+
+
     }
   }
 
@@ -45,24 +75,34 @@ document.addEventListener("DOMContentLoaded", () => {
         productos.forEach(producto => {
           const cantidad = parseInt(localStorage.getItem(producto.id)) || 0;
           contenedor.insertAdjacentHTML("beforeend", `
-            <div class="producto" data-precio="${producto.precio}">
-              <img src="${producto.imagen}" width="100" />
-              <h3>${producto.nombre}</h3>
-              <p>Precio: $${producto.precio}</p>
-              <p>Cantidad: <span class="cantidad-en-carrito">${cantidad}</span></p>
-              <p>Subtotal: <span class="subtotal">$${producto.precio * cantidad}</span></p>
+  <div class="container d-flex justify-content-center">
+    <div class="card mb-3 producto" data-precio="${producto.precio}" style="max-width: 540px; width: 100%;">
+      <div class="row g-0 align-items-center">
+        <div class="col-md-4 text-center">
+          <img src="${producto.imagen}" class="img-fluid rounded-start" alt="Imagen de ${producto.nombre}" />
+        </div>
+        <div class="col-md-8">
+          <div class="card-body p-2">
+            <h5 class="card-title">${producto.nombre}</h5>
+            <p class="card-text mb-1">Precio: <strong>$${producto.precio}</strong></p>
+            <p class="card-text mb-1">Cantidad: <span class="cantidad-en-carrito">${cantidad}</span></p>
+            <p class="card-text mb-2">Subtotal: <span class="subtotal fw-bold">$${producto.precio * cantidad}</span></p>
 
-              <input type="hidden" class="verid" value="${producto.id}">
-              <input type="hidden" class="vervalor" value="${cantidad}">
+            <input type="hidden" class="verid" value="${producto.id}" />
+            <input type="hidden" class="vervalor" value="${cantidad}" />
 
-              <button type="button" class="btn btn-primary agregar">Agregar</button>
-              <button type="button" class="btn btn-danger eliminar">Borrar</button>
-
-              <hr>
+            <div class="d-flex gap-2">
+              <button type="button" class="btn btn-primary btn-sm agregar">Agregar</button>
+              <button type="button" class="btn btn-danger btn-sm eliminar">Borrar</button>
             </div>
-         
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+`);
 
-          `);
+
         });
         actualizarTotal();
       })
