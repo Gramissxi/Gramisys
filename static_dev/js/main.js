@@ -170,6 +170,9 @@ function EliminarUno(cada_producto_id) {
 
     mostrarCantidadesDesdeLocalStorage();
     actualizarCarrito(); // Volvés a actualizar el contador
+    console.log("BORRADO desde EliminarUno()");
+    console.trace();
+
   }
 }
 
@@ -178,6 +181,8 @@ $('.eliminar').click(function (event) {
   event.preventDefault();
 
   let cada_producto_id = $(this).parent().find('.verid').val();
+  console.log("Click en botón .eliminar");
+  console.trace();
 
   EliminarUno(cada_producto_id);
 });
@@ -278,34 +283,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Listener para los botones eliminar
-    const botonesEliminar = document.querySelectorAll('.eliminar-producto');
-    botonesEliminar.forEach(boton => {
-        boton.addEventListener('click', function() {
-            // Encontrar la fila <tr> padre
-            const fila = this.closest('tr[data-id]');
-            if (!fila) return;
-            
-
-            const idProducto = fila.getAttribute('data-id'); // esto da una string como "2"
-            
-            localStorage.removeItem(idProducto); // Eliminar del localStorage
-            fila.remove();
-
-            // Actualizar total
-            actualizarTotal();
-
-            // Opcional: mostrar mensaje si carrito quedó vacío
-            const filasRestantes = document.querySelectorAll('tbody tr[data-id]');
-            if (filasRestantes.length === 0) {
-                const tbody = document.querySelector('tbody');
-                tbody.innerHTML = `<tr><td colspan="4" class="text-center">Tu carrito está vacío.</td></tr>`;
-                // También puedes ocultar botones o total si quieres
-                const totalDiv = document.querySelector('.d-flex.justify-content-end.fs-4.fw-bold.mt-3');
-                if (totalDiv) totalDiv.textContent = '';
-            }
-        });
-    });
+    
 
     // Al cargar, asegurar que el total está correcto
     actualizarTotal();
