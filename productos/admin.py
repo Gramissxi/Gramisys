@@ -37,7 +37,7 @@ class ProductAdmin(admin.ModelAdmin):
     ]
 #listadisplay-> nos va a servir para ordenar en columnas los datos de arriba
 
-    list_display= ['get_categoria','subcategoria','marca', 'tipo','tamaños', 'Stock', 'Precio', 'fecha_ingreso', 'upper_case_name']
+    list_display= ['get_categoria','subcategoria','marca', 'tipo','tamaños', 'stock', 'precio', 'fecha_ingreso', 'upper_case_name']
    
 
     ordering= ['-fecha_ingreso'] #porque cambia todos los ordenes
@@ -51,7 +51,7 @@ class ProductAdmin(admin.ModelAdmin):
     
     
     
-    list_display_links= ('upper_case_name','Stock')#va a permitir modificar apretando el link 
+    list_display_links= ('upper_case_name','stock')#va a permitir modificar apretando el link 
     actions = ["publicar", "exportar_a_json", "ver_productos"]#el nombre de la accion!!! FUNCION PUBLICAR
     
     def get_categoria(self, obj): #para cada objeto voy a visualizarlo de forma tal de obtener el prodcuto y el precio

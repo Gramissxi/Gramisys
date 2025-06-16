@@ -17,15 +17,30 @@
         </div>
 
         <!-- Buscador centrado -->
-        <form class="d-flex align-items-center mx-auto buscador-centrado" role="search" style="max-width: 500px; width: 100%;">
-          <input class="form-control me-2 rounded-pill shadow-sm" type="search" placeholder="¿Qué querés comprar hoy?" aria-label="Buscar">
-          <button class="btn btn-light rounded-pill px-4 fw-bold text-success" type="submit">Buscar</button>
+          
+                  
+<div class="position-relative" style="max-width: 500px; width: 100%;">
+  <form action="/tienda/buscar/" method="get" class="d-flex">
+    <input class="form-control" autocomplete="off" type="search" name="q" placeholder="¿Qué querés comprar hoy?" aria-label="Buscar">
+    <button class="btn btn-light rounded-pill px-4 fw-bold text-success" type="submit">Buscar</button>
+  </form>
+  <div id="resultados-busqueda" class="list-group position-absolute w-100 mt-2" style="z-index: 1000;"></div>
+</div>
+
+
           <a class="btn btn-link ms-3 text-decoration-none text-white fw-semibold" href="{% url 'contacto' %}"
           onclick="window.open(this.href, 'popup', 'width=600,height=600'); return false;">Contacto</a>
+
+         {% if es_staff %}
+         <a class="btn btn-link ms-3 text-decoration-none text-white fw-semibold" href="{% url 'cargar' %}">Cargar</a>
+          {% endif %}
+            
+
+
           
 
           
-        </form>
+        
 
         <!-- Botón Ingresar  -->
       
@@ -86,11 +101,88 @@
       </div>
     </nav>
 
-  <script>
-  
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const buscador = document.querySelector('input[name="q"]');
+  const resultados = document.getElementById('resultados-busqueda');
+  let resultadosArray = [];
+  let selectedIndex = -1;
+
+  buscador.addEventListener('input', function () {
+    const query = this.value.trim();
+    resultados.innerHTML = '';
+    resultadosArray = [];
+    selectedIndex = -1;
+
+    if (query.length < 2) return;
+
+    fetch(`/tienda/buscar/?q=${encodeURIComponent(query)}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.length === 0) {
+          resultados.innerHTML = '<div class="list-group-item text-muted">No hay resultados.</div>';
+          return;
+        }
+
+        data.forEach((producto, index) => {
+          const item = document.createElement('a');
+          item.href = `/tienda/${producto.id}/ver/`;
+          item.className = 'list-group-item list-group-item-action';
+          item.setAttribute('data-index', index);
+
+          item.innerHTML = `
+            <div class="d-flex align-items-center">
+              <img src="${producto.imagen_url}" width="40" height="40" class="me-2 rounded">
+              <div>
+                <strong>${producto.nombre}</strong><br>
+                <small>$${producto.precio}</small>
+              </div>
+            </div>
+          `;
+
+          resultados.appendChild(item);
+          resultadosArray.push(item);
+        });
+      });
+  });
+
+  buscador.addEventListener('keydown', function (e) {
+    if (resultadosArray.length === 0) return;
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (selectedIndex < resultadosArray.length - 1) {
+        selectedIndex++;
+        updateSelection();
+      }
+    }
+
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (selectedIndex > 0) {
+        selectedIndex--;
+        updateSelection();
+      }
+    }
+
+    if (e.key === 'Enter' && selectedIndex >= 0) {
+      e.preventDefault();
+      window.location.href = resultadosArray[selectedIndex].href;
+    }
+  });
+
+  function updateSelection() {
+    resultadosArray.forEach((item, index) => {
+      if (index === selectedIndex) {
+        item.classList.add('active');
+        item.scrollIntoView({ block: 'nearest' });
+      } else {
+        item.classList.remove('active');
+      }
+    });
+  }
+});
 </script>
-
-
 
 
     

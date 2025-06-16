@@ -15,6 +15,7 @@ urlpatterns = [
     path('producto/<int:producto_id>/', views.detalle_producto, name='detalle_producto'),
 
 
+
     path("templatetags1", Templatetags1.as_view(), name="templatetags1"),
 ]
 

@@ -47,6 +47,7 @@ class Producto(models.Model):
         ('Frutilla','Frutilla'),
         ('Tirabuzón','Tirabuzón'),
         ('Limonada','Limonada'),
+        ('Sprite','Sprite'),
         ('Tónica','Tónica'),
         ('Spaghetti','Spaghetti'),
         ('Moño','Moño'),
@@ -83,8 +84,12 @@ class Producto(models.Model):
     tamaños = models.CharField(max_length=100, choices=Tamaños, null=True,blank=True)
 
     def save(self, *args, **kwargs):
-        self.nombre = f"{self.subcategoria} {self.marca} {self.tipo}"
+        partes = [str(self.subcategoria), str(self.marca)]
+        if self.tipo:
+            partes.append(str(self.tipo))
+        self.nombre = " ".join(partes)
         super().save(*args, **kwargs)
+
     
 
     def Stock(self):

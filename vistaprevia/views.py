@@ -16,6 +16,10 @@ def index(request):
         'productos': productos,
         'categorias': categorias,
         'categorias_con_productos': Categoria.objects.prefetch_related('producto_set'),
+
+
+
+        'es_staff': request.user.is_staff,  # Verifica si el usuario es staff
     }
     return render(request, 'vistaprevia/index.html', params)
 
@@ -33,23 +37,25 @@ def productos_por_categoria(request, categoria_id):
     return render(request, 'vistaprevia/productos_por_categoria.html', params)
 
 def productos_por_subcategoria(request, subcategoria_id):
+    from productos.models import Subcategoria  
+    subcategoria = Subcategoria.objects.get(id=subcategoria_id)
     productos = Producto.objects.filter(subcategoria_id=subcategoria_id)
     categorias = Categoria.objects.all()
     return render(request, 'vistaprevia/productos_por_subcategoria.html', {
         'productos': productos,
-        'categorias': categorias
+        'categorias': categorias,
+        'subcategoria': subcategoria  
     })
-
 
 def detalle_producto(request, producto_id):
     producto = Producto.objects.get(id=producto_id)
-    categorias = Categoria.objects.all()  # <-- Agregá esto
+    categorias = Categoria.objects.all()  
     return render(request, 'vistaprevia/detalle_producto.html', {
         'producto': producto,
-        'categorias': categorias  # <-- Y pasalo acá
-    })
+        'categorias': categorias })
+
 class Templatetags1(View):
-    template = "vistaprevia/templatetags1.html"
+    template = "vistaprevia/templatetags1.html" # la dejo pero no la uso para mi app
 
     def get(self, request):
         params = {}

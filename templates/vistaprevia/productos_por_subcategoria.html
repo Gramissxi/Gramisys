@@ -3,7 +3,9 @@
 
 {% block contenedor %}  
 <div class="container mt-5">
-  <h2 class="mb-4">Productos de la Subcategoría</h2>
+
+
+  <h2 class="mb-4"><strong>{{ subcategoria.nombre }}</strong></h2>  
   
 
 
@@ -20,7 +22,18 @@
             <div class="card-body">
               <h5 class="card-title">{{ producto.nombre }}</h5>
               <p class="card-text">${{ producto.precio }}</p>
-              <a href="{% url 'detalle_producto' producto.id %}" class="btn btn-primary">Ver detalle</a>
+              
+
+               <p class="card-text">
+               Cantidad en carrito: <span class="cantidad-en-carrito" data-id="{{ producto.id }}">0</span>
+               </p>
+
+               <input type="hidden" class="verid" value="{{ producto.id }}">
+               <input type="hidden" class="vervalor" value="{{ producto.cantidad }}">  
+               <button type="button" class="btn btn-primary agregar">Agregar</button>
+               <button type="button" class="btn btn-danger eliminar">Borrar</button>
+
+                            
             </div>
           </div>
         </div>
