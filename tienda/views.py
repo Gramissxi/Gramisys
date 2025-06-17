@@ -126,7 +126,7 @@ def buscar_productos(request):
     if len(query) < 2:
         return HttpResponse(status=204) # si apreto me aparece el json vacio asi lo cambie por esto para que no cambie nada si busca vacio
 
-    productos = Producto.objects.filter(nombre__icontains=query)[:5]
+    productos = Producto.objects.filter(nombre__icontains=query)[:5] #aca la rebana funciona para seleccionar los 5 elementos de la lista
     resultados = [
             {
                 'nombre': p.nombre,

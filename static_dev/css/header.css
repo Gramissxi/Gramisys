@@ -1,1 +1,199 @@
-﻿body{background-color:#F5F5F5;font-family:'Arial', sans-serif;color:#98d9b6}.mi-nav{background-color:#8BC34A}.logo{margin-left:50px}#carrusel-ofertas .carousel-control-prev-icon,#carrusel-ofertas .carousel-control-next-icon{background-color:rgba(0,0,0,0.5);border-radius:50%;filter:drop-shadow(0 0 5px #000)}.boton-buscar{background-color:#E41A1C;border:none;border-radius:15%;padding:8px 16px;color:#fff}.boton-ingresar{margin-right:60px;background-color:#E41A1C;border:none;border-radius:15%;padding:8px 16px;color:#fff;text-decoration:none}.buscador-centrado{margin:0 auto;width:50%;display:flex;justify-content:center}.img-carrusel{width:80%;margin:0 auto;border-radius:15%}.img-carrusel2{width:80%;margin:0 auto;border-radius:15%}.img-carrusel3{width:80%;margin:0 auto;border-radius:15%}.img-carrusel4{width:80%;margin:0 auto;border-radius:15%}.carrusel-imagen{width:30%;height:300px;object-fit:cover}.card{max-width:300px;margin-top:50px;margin-left:10px;margin-right:10px;border-radius:20%}.card3{border-radius:50%}.menu{display:flex;justify-content:center;gap:50px}.botondes{margin-top:20px;border:none}.tituloPrincipal{color:#E41A1C;margin-bottom:30px;text-align:center}.titulo-ofertas{color:#E41A1C;text-align:center}.titulo-categorias{color:#E41A1C}.lista a{text-decoration:none}.boton-añadir{background-color:#E41A1C !important;border:none !important}.eslogan{color:#212121}.menu-categorias{box-shadow:0 4px 12px rgba(255,0,0,0.4);border-radius:8px;padding:10px}.nombre-categoria{color:#E41A1C !important}
+@charset "UTF-8";
+/* Colores */
+body {
+  background-color: #F5F5F5;
+  font-family: 'Arial', sans-serif;
+  color: #98d9b6;
+}
+
+.mi-nav {
+  background-color: #8BC34A;
+}
+
+.logo {
+  margin-left: 50px;
+}
+
+#carrusel-ofertas .carousel-control-prev-icon,
+#carrusel-ofertas .carousel-control-next-icon {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  filter: drop-shadow(0 0 5px #000);
+}
+
+.boton-buscar {
+  background-color: #E41A1C;
+  border: none;
+  border-radius: 15%;
+  padding: 8px 16px;
+  color: #ffffff;
+}
+
+.boton-ingresar {
+  margin-right: 60px;
+  background-color: #E41A1C;
+  border: none;
+  border-radius: 15%;
+  padding: 8px 16px;
+  /* para que tenga tamaño de botón */
+  color: #ffffff;
+  /* para que se vea el texto */
+  text-decoration: none;
+  /* sacar el subrayado */
+}
+
+.buscador-centrado {
+  margin: 0 auto;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+}
+
+.img-carrusel {
+  width: 80%;
+  margin: 0 auto;
+  /* centra la imagen */
+  border-radius: 15%;
+}
+
+.img-carrusel2 {
+  width: 80%;
+  margin: 0 auto;
+  /* centra la imagen */
+  border-radius: 15%;
+}
+
+.img-carrusel3 {
+  width: 80%;
+  /* achica la imagen al 70% del contenedor */
+  margin: 0 auto;
+  /* centra la imagen */
+  border-radius: 15%;
+}
+
+.img-carrusel4 {
+  width: 80%;
+  margin: 0 auto;
+  /* centra la imagen */
+  border-radius: 15%;
+}
+
+.carrusel-imagen {
+  width: 30%;
+  /* que ocupe todo el ancho del contenedor */
+  height: 300px;
+  /* o el alto que quieras */
+  object-fit: cover;
+  /* para que no se deformen feo */
+}
+
+.card {
+  max-width: 300px;
+  margin-top: 50px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 20%;
+}
+
+.card3 {
+  border-radius: 50%;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  /* separa los botones */
+}
+
+.botondes {
+  margin-top: 20px;
+  border: none;
+  /* Opcional: si querés que no tenga bordes grises */
+}
+
+.tituloPrincipal {
+  color: #E41A1C;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.titulo-ofertas {
+  color: #E41A1C;
+  text-align: center;
+}
+
+.titulo-categorias {
+  color: #E41A1C;
+}
+
+.lista a {
+  text-decoration: none;
+}
+
+.boton-añadir {
+  background-color: #E41A1C !important;
+  border: none !important;
+}
+
+.eslogan {
+  color: #212121;
+}
+
+.menu-categorias {
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.4);
+  /* sombra roja con opacidad */
+  border-radius: 8px;
+  /* opcional, si querés que se vea más suave */
+  padding: 10px;
+  /* opcional, para que respire un poco */
+}
+
+.nombre-categoria {
+  color: #E41A1C !important;
+}
+
+.wave-carrusel {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  overflow: hidden;
+  padding: 20px 0;
+  width: 100%;
+  position: relative;
+  justify-content: center;
+}
+
+.wave-item {
+  width: 250px;
+  height: 240px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  text-align: center;
+  padding: 10px;
+}
+
+.wave-item .img-container {
+  width: 100%;
+  height: 170px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wave-item img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.wave-item h5 {
+  font-size: 1rem;
+  margin-top: 10px;
+}

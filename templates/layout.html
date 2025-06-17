@@ -19,13 +19,13 @@
         <!-- Buscador centrado -->
           
                   
-<div class="position-relative" style="max-width: 500px; width: 100%;">
-  <form action="/tienda/buscar/" method="get" class="d-flex">
-    <input class="form-control" autocomplete="off" type="search" name="q" placeholder="¿Qué querés comprar hoy?" aria-label="Buscar">
-    <button class="btn btn-light rounded-pill px-4 fw-bold text-success" type="submit">Buscar</button>
-  </form>
-  <div id="resultados-busqueda" class="list-group position-absolute w-100 mt-2" style="z-index: 1000;"></div>
-</div>
+        <div class="position-relative" style="max-width: 500px; width: 100%;">
+          <form action="/tienda/buscar/" method="get" class="d-flex">
+            <input class="form-control" autocomplete="off" type="search" name="q" placeholder="¿Qué querés comprar hoy?" aria-label="Buscar">
+            <button class="btn btn-light rounded-pill px-4 fw-bold text-success" type="submit">Buscar</button>
+          </form>
+          <div id="resultados-busqueda" class="list-group position-absolute w-100 mt-2" style="z-index: 1000;"></div>
+        </div>
 
 
           <a class="btn btn-link ms-3 text-decoration-none text-white fw-semibold" href="{% url 'contacto' %}"

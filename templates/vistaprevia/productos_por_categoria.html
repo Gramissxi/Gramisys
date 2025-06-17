@@ -4,6 +4,153 @@
 
 
 {% block contenedor %}
+
+
+
+<!-- efecto ola de greensock -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="wave-carrusel d-flex justify-content-center align-items-end gap-4" style="min-height: 220px;">
+    <div class="wave-item d-flex flex-column align-items-center">
+        <img src="http://127.0.0.1:8000/media/producto/2025/02/15/mascotas.png" alt="Bebés">
+        <div class="card-body p-0 mt-2">
+            <h5 class="card-title mb-0">Bebés</h5>
+        </div>
+    </div>
+    <div class="wave-item d-flex flex-column align-items-center">
+        <img src="http://127.0.0.1:8000/media/producto/2025/02/15/ropa.jpg" alt="Moda">
+        <div class="card-body p-0 mt-2">
+            <h5 class="card-title mb-0">Moda</h5>
+        </div>
+    </div>
+    <div class="wave-item d-flex flex-column align-items-center">
+        <img src="http://127.0.0.1:8000/media/producto/2025/02/15/perfumes.jpg" alt="Belleza">
+        <div class="card-body p-0 mt-2">
+            <h5 class="card-title mb-0">Belleza</h5>
+        </div>
+    </div>
+    <div class="wave-item d-flex flex-column align-items-center">
+        <img src="http://127.0.0.1:8000/media/producto/2025/02/15/bebes.png" alt="Perfumería">
+        <div class="card-body p-0 mt-2">
+            <h5 class="card-title mb-0">Perfumería</h5>
+        </div>
+    </div>
+</div>
+
+
+<!-- lo pongo aca por el efecto prevalece durante este codigo si lo pongo en main js no funciona ya que es dinamico -->
+ 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+
+  const CONFIG = {
+    totalCards: document.querySelectorAll(".wave-item").length,
+    animations: {
+      transitionDuration: 1.5,
+    }
+  };
+ document.querySelectorAll('.wave-item img').forEach(img => {
+  img.style.width = '400px';
+  img.style.height = '400px';
+  img.style.objectFit = 'contain';
+});
+
+  function animateWave() {
+  const cards = gsap.utils.toArray(".wave-item");
+  const viewport = getViewportSize();
+  const waveHeight = Math.min(viewport.height * 0.08, 50);
+  const speed = 2; // velocidad de la onda
+
+  gsap.ticker.add((time) => {
+    cards.forEach((card, i) => {
+      const normalizedIndex = i / (CONFIG.totalCards - 1);
+      // El tiempo se suma para animar continuamente
+      const y = Math.sin(normalizedIndex * Math.PI * 2 + time * speed) * waveHeight;
+      gsap.set(card, { y });
+    });
+  });
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  setupWavePositions();
+  animateWave();
+});
+
+  function getViewportSize() {
+    return {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
+  }
+
+  function setupWavePositions() {
+    const cards = gsap.utils.toArray(".wave-item");
+    const viewport = getViewportSize();
+    const waveHeight = Math.min(viewport.height * 0.08, 50);
+
+    gsap.set(cards, {
+      y: (i) => {
+        const normalizedIndex = i / (CONFIG.totalCards - 1);
+        return Math.sin(normalizedIndex * Math.PI * 2) * waveHeight;
+      }
+    });
+  }
+
+  function startWaveAnimation() {
+    const cards = gsap.utils.toArray(".wave-item");
+    const viewport = getViewportSize();
+    const waveHeight = Math.min(viewport.height * 0.08, 50);
+
+    gsap.to(cards, {
+      y: (i) => {
+        const normalizedIndex = i / (CONFIG.totalCards - 1);
+        return Math.sin(normalizedIndex * Math.PI * 2 + Math.PI) * waveHeight;
+      },
+      duration: 2,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut"
+    });
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    setupWavePositions();
+    startWaveAnimation();
+  });
+ 
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div class="container mt-5">
     <h1><strong>{{ categoria.nombre }}</strong></h1>
 

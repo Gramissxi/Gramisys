@@ -139,3 +139,47 @@ body{
 .nombre-categoria {
   color:$color2 !important;
 }
+.wave-carrusel {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  overflow: hidden;
+  padding: 20px 0;
+  width: 100%;
+  position: relative;
+  justify-content: center;
+}
+
+.wave-item {
+  width: 250px;
+  height: 240px; // aumenté la altura de la card
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  text-align: center;
+  padding: 10px;
+}
+
+.wave-item .img-container {
+  width: 100%;
+  height: 170px; // aumenté la altura del contenedor de imagen
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wave-item img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.wave-item h5 {
+  font-size: 1rem;
+  margin-top: 10px;
+}
