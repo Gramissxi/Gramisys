@@ -6,55 +6,51 @@
 
     
  {% block content %} 
-    <nav class="navbar navbar-expand-lg shadow-sm py-3" style="background-color: #06f385;">
+    <nav class="navbar navbar-expand-md shadow-sm py-3" style="background: linear-gradient(90deg, #029751 0%, #dff709 100%);">
       <div class="container-fluid d-flex justify-content-between align-items-center">
         <!-- Logo y eslogan -->
         <div class="d-flex align-items-center gap-3">
           <a class="navbar-brand d-flex align-items-center logo" href="{% url 'index' %}">
-            <img src="http://127.0.0.1:8000/media/producto/2025/02/15/logo1.png" alt="Logo GramiSys" width="60" height="60" class="rounded-circle border border-2 border-light shadow-sm">
+            <img src="http://127.0.0.1:8000/media/producto/2025/02/15/logo1.png" alt="Logo GramiSys" width="70" height="70" class="rounded-circle border border-2 border-light shadow-sm">
           </a>
-          <span class="eslogan fs-5 fw-semibold text-white">Tu mercado de confianza</span>
+          <span class="eslogan fs-6 fw-semibold text-white">Tu mercado de confianza</span>
         </div>
 
         <!-- Buscador centrado -->
           
                   
-        <div class="position-relative" style="max-width: 500px; width: 100%;">
-          <form action="/tienda/buscar/" method="get" class="d-flex">
-            <input class="form-control" autocomplete="off" type="search" name="q" placeholder="¿Qué querés comprar hoy?" aria-label="Buscar">
+        <div class="position-relative flex-grow-1 d-flex justify-content-center buscador-centrado" style="max-width: 400px;">
+          <form action="/tienda/buscar/" method="get" class="d-flex w-100">
+            <input class="form-control" autocomplete="off" type="search" name="q" placeholder="¿Qué querés comprar?" aria-label="Buscar">
             <button class="btn btn-light rounded-pill px-4 fw-bold text-success" type="submit">Buscar</button>
           </form>
           <div id="resultados-busqueda" class="list-group position-absolute w-100 mt-2" style="z-index: 1000;"></div>
         </div>
 
 
-          <a class="btn btn-link ms-3 text-decoration-none text-white fw-semibold" href="{% url 'contacto' %}"
+          <a class="btn btn-link ms-3 text-decoration-none fw-semibold" style="color: #085631;" href="{% url 'contacto' %}"
           onclick="window.open(this.href, 'popup', 'width=600,height=600'); return false;">Contacto</a>
 
          {% if es_staff %}
-         <a class="btn btn-link ms-3 text-decoration-none text-white fw-semibold" href="{% url 'cargar' %}">Cargar</a>
+         <a class="btn btn-link ms-3 text-decoration-none  fw-semibold "style="color: #085631;" href="{% url 'cargar' %}">Cargar</a>
           {% endif %}
             
 
-
-          
-
-          
-        
 
         <!-- Botón Ingresar  -->
       
          <div class="ms-auto">
           {% if user.is_authenticated %}
-          <form action="{% url 'logout' %}" method="post">
+            <form action="{% url 'logout' %}" method="post" class="d-flex align-items-center gap-2">
             {% csrf_token %}
-            <button type="submit" class="boton-salir">Cerrar sesión</button>
-          </form>
-            <span class="bienvenida">Bienvenido {{ user.username }}</span>
+            <span class="bienvenida me-4">Bienvenido {{ user.username }} </span>
+            <button type="submit" class="btn btn-danger btn-lg">Cerrar sesión</button>
+            </form>
+            
 
           {% else %}
             
-            <a href="{% url 'login' %}" class="boton-ingresar"
+            <a href="{% url 'login' %}" class="btn btn-danger btn-lg"
                 onclick="window.open(this.href, 'popup', 'width=600,height=600'); return false;" 
                 class="btn btn-primary">
                 Ingresar
@@ -65,8 +61,8 @@
         
         
         <!-- Carrito -->
-        <a href="{% url 'carrito' %}" class="btn btn-outline-light position-relative ms-3">
-          <span style="font-size: 1.5rem;">🛒</span>
+        <a href="{% url 'carrito' %}" class="btn btn-outline-light position-relative ms-3 me-3" style="background-color: #198754; border-color: #198754;">
+          <span style="font-size: 1.5rem; color: #fff;">🛒</span>
           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count" style="font-size: 1rem;">0</span>
           <span class="ms-2 fw-semibold text-white">Carrito</span>
         </a>
@@ -74,7 +70,7 @@
     </nav>
     <nav>
       <!-- Menú con categorías usando Bootstrap -->
-      <div class="d-flex flex-wrap justify-content-center gap-3 menu-categorias py-2" style="background-color: #7af1b9;">
+      <div class="d-flex flex-wrap justify-content-center gap-3 menu-categorias py-2" style="background-color: #efe24b;">
         {% for categoria in categorias %}
           <div class="dropdown">
             <button class="btn btn-success dropdown-toggle fw-semibold" type="button" id="dropdownCategoria{{ forloop.counter }}" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #198754; border: none;">

@@ -12287,7 +12287,7 @@ body {
 
 .boton-ingresar {
   margin-right: 60px;
-  background-color: #E41A1C;
+  background-color: #187703;
   border: none;
   border-radius: 15%;
   padding: 8px 16px;
@@ -12298,11 +12298,29 @@ body {
   /* sacar el subrayado */
 }
 
+.bienvenida {
+  text-align: center;
+  margin-left: 5px;
+  font-size: 1rem;
+  color: #be0101;
+  font-weight: bold;
+}
+
 .buscador-centrado {
   margin: 0 auto;
+  margin-left: 50px;
   width: 50%;
   display: flex;
   justify-content: center;
+}
+
+#resultados-busqueda {
+  position: absolute;
+  top: 40px;
+  /* distancia desde el top del contenedor padre */
+  left: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
 .img-carrusel {

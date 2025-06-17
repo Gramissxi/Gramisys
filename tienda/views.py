@@ -86,11 +86,13 @@ def ver_imagen(request, producto_id):
     
     try:
         producto= Producto.objects.get(pk= producto_id)
+        categorias = Categoria.objects.all()
     except Producto.DoesNotExist:
         raise Http404("No hay productos disponibles") #agregamos mensaje propio para el caso de que no haya productos disponibles  
 
     params['producto']= producto
-    params['es_staff'] = request.user.is_staff  
+    params['es_staff'] = request.user.is_staff
+    params['categorias'] = categorias  
     
     return render(request, "tienda/verimagen.html", params)
 
