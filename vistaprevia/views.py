@@ -33,6 +33,8 @@ def productos_por_categoria(request, categoria_id):
         'productos': productos,
         'categorias': categorias,
         'categoria': categoria,  
+        'es_staff': request.user.is_staff,  # Verifica si el usuario es staff
+
     }
     return render(request, 'vistaprevia/productos_por_categoria.html', params)
 
@@ -44,7 +46,9 @@ def productos_por_subcategoria(request, subcategoria_id):
     return render(request, 'vistaprevia/productos_por_subcategoria.html', {
         'productos': productos,
         'categorias': categorias,
-        'subcategoria': subcategoria  
+        'subcategoria': subcategoria,
+        'es_staff': request.user.is_staff,  # Verifica si el usuario es staff
+  
     })
 
 def detalle_producto(request, producto_id):

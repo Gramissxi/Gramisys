@@ -6,7 +6,7 @@
 {% block contenedor %}
 
 <!-- Esto puede quedar -->
-<div class="container mt-5">
+<div class="container mt-5 text-center">
   <h1 class="tituloPrincipal">Bienvenido al SuperMarket</h1>
 </div>
 
@@ -74,67 +74,57 @@
       </div>
 
       <!-- Productos -->
-      <div class="col-md-9">
-        <h1 class="titulo-ofertas">¡Ofertas exclusivas para vos!</h1>
-        <div class="row">
+      <div class="col-md-9 d-flex flex-column align-items-center">
+        <h1 class="titulo-ofertas text-center">¡Ofertas exclusivas para vos!</h1>
+        <div class="row justify-content-center w-100"></div>
 
 
 
 <!-- todo esto es para tomar info del DOM Y CONTROLARLO CON UN CONTROL SECUNDARIO EN LA BD LOCALSTORAGE PARA MANEJAR VARIABLES-->
 
-        <div class="container mt-5">
-            
-        
-            <div class="row">
-                
-        
-                {% if productos %}
-                    {% for producto in productos %}
-                        <div class="col-md-4">
-                            <div class="card mb-4 shadow-sm">
-                                {% if producto.imagen %}
-                                    <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}">
-                                {% else %}
-                                    <img src="{% static 'no-image.png' %}" class="card-img-top" alt="Sin imagen">
-                                {% endif %}
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ producto.nombre }}</h5>
-                                    <p class="card-text">${{ producto.precio }}</p>
-                                    <p class="card-text">Stock: {{ producto.stock }}</p>
-
-                                    <p class="card-text">
-                                    Cantidad en carrito: <span class="cantidad-en-carrito" data-id="{{ producto.id }}">0</span>
-                                    </p>
-
-                                        <input type="hidden" class="verid" value="{{ producto.id }}">
-                                        <input type="hidden" class="vervalor" value="{{ producto.cantidad }}">
-
-
-    
-                                        <button type="button" class="btn btn-primary agregar">Agregar</button>
-                                        <button type="button" class="btn btn-danger eliminar">Borrar</button>
-
-                                        {% if es_staff %}
-                                            <a href="{% url 'editar_producto' producto.id %}" class="btn btn-warning">Modificar</a>
-                                        {% endif %}
-
-                                  </div>
-
-                            </div>
-                        </div>
-                    {% endfor %}
-                {% else %}
-                    <div class="col-12">
-                        <p>No hay productos en esta categoría.</p>
+        <div class="container-fluid mt-5">
+          <div class="row">
+            {% if productos %}
+              {% for producto in productos %}
+                <div class="col-md-3">
+                  <div class="card mb-4 shadow-sm card-producto">
+                    <div class="card-img-top d-flex align-items-center justify-content-center" style="background: #fff; height: 200px;">
+                      {% if producto.imagen %}
+                        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}"
+                           style="max-width: 100%; max-height: 100%; object-fit: contain; background: #fff; display: block; margin: auto;">
+                      {% endif %}
                     </div>
-                {% endif %}
-            </div>
-        
-
-
-
-      
+                    <div class="card-body">
+                      <h5 class="card-title">{{ producto.nombre }}</h5>
+                      <p class="card-text">${{ producto.precio }}</p>                      
+                      <p class="card-text">
+                        Cantidad: <span class="cantidad-en-carrito" data-id="{{ producto.id }}">0</span>
+                      </p>
+                      <input type="hidden" class="verid" value="{{ producto.id }}">
+                      <input type="hidden" class="vervalor" value="{{ producto.cantidad }}">
+                      <button type="button" class="btn btn-warning agregar">➕</button>
+                      <button type="button" class="btn btn-warning eliminar">➖</button>
+                      {% if es_staff %}
+                        <a href="{% url 'editar_producto' producto.id %}" class="btn btn-warning">✏️</a>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            {% else %}
+              <div class="col-12">
+                <p>No hay productos en esta categoría.</p>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+ </div>
+  </div>
+   </div>
+    </div>
 {% endblock %}
+
+
 
 
 {% block scripts %}
