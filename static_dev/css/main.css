@@ -12278,11 +12278,11 @@ body {
 }
 
 .boton-buscar {
-  background-color: #E41A1C;
+  background-color: red;
   border: none;
   border-radius: 15%;
   padding: 8px 16px;
-  color: #ffffff;
+  color: white;
 }
 
 .boton-ingresar {
@@ -12302,7 +12302,7 @@ body {
   text-align: center;
   margin-left: 5px;
   font-size: 1rem;
-  color: #be0101;
+  color: #123b01;
   font-weight: bold;
 }
 

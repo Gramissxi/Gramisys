@@ -22,7 +22,7 @@
         <div class="position-relative flex-grow-1 d-flex justify-content-center buscador-centrado" style="max-width: 400px;">
           <form action="/tienda/buscar/" method="get" class="d-flex w-100">
             <input class="form-control" autocomplete="off" type="search" name="q" placeholder="¿Qué querés comprar?" aria-label="Buscar">
-            <button class="btn btn-light rounded-pill px-4 fw-bold text-success" type="submit">Buscar</button>
+            <button class="btn btn-light rounded-pill px-4 fw-bold text-success" style="margin-left: 5px;"  type="submit">Buscar</button>
           </form>
           <div id="resultados-busqueda" class="list-group position-absolute w-100 mt-2" style="z-index: 1000;"></div>
         </div>
@@ -61,7 +61,7 @@
         
         
         <!-- Carrito -->
-        <a href="{% url 'carrito' %}" class="btn btn-outline-light position-relative ms-3 me-3" style="background-color: #198754; border-color: #198754;">
+        <a href="{% url 'carrito' %}" class="btn btn-outline-light position-relative ms-3 me-3" style="background-color: #198754; border-color: #198754; margin-right: 20px;">
           <span style="font-size: 1.5rem; color: #fff;">🛒</span>
           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count" style="font-size: 1rem;">0</span>
           <span class="ms-2 fw-semibold text-white">Carrito</span>

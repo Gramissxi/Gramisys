@@ -12,9 +12,9 @@ def agregar(request, *args, **kwargs):
         idproducto = request.GET.get("cada_producto_id")
         valor = request.GET.get("valor")
 
-        carro = request.session.get("carro", {})  # <--- acá está la corrección
+        carro = request.session.get("carro", {})  
 
-        idproducto_rec = int(idproducto)  # mejor así, sin recortar
+        idproducto_rec = int(idproducto) 
         el_prod = Producto.objects.get(id=idproducto_rec)
         stock_actual = int(el_prod.stock)
 
@@ -34,7 +34,7 @@ def agregar(request, *args, **kwargs):
         resultados.append(data)
 
         data_json = json.dumps(resultados)
-        return HttpResponse(data_json, content_type="application/json")  # corrección aquí
+        return HttpResponse(data_json, content_type="application/json")  
 
                 
 def carrito(request):
@@ -55,12 +55,12 @@ def carrito(request):
             "imagen": prod.imagen.url if prod.imagen else None
         })
 
-    categorias = Categoria.objects.all()  # <--- agregalo acá
+    categorias = Categoria.objects.all()  
 
     context = {
         "productos": productos,
         "total": total,
-        "categorias": categorias,  # <--- y pasalo al contexto
+        "categorias": categorias,  
     }
 
     return render(request, "tienda/carrito.html", context)
